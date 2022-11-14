@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title></title>
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/newStyle.css" rel="stylesheet" />
+         <link href="css/main.css" rel="stylesheet" />
+          <style type="text/css">
+             @media all and (max-width:700px) {
+                .navbar-brand{display: none; padding-top: 0.5rem;padding-bottom: 0.5rem;} 
+                .page-section{padding: 0rem 0;}
+                .btnGroup .saveBtn{width: 100% !important;}
+                .searchForm{display: none;}
+            }
+            .btnGroup {width: 100%;margin: auto;}
+            .btnGroup .column{width: 33%;}
+            .image3 .column{width: 33%; padding: 10px 5px 10px 15px;}
+            .btnGroup a{background-color: black; color:#fff}
+            .image3 .col-1{width: 1%;}
+            .disableInput:disabled{background-color: unset; font-size: font-size: 1.5rem !important;}
+            .image3 .form-input{background-color: #F9F9F9;border: 0 !important;}
+            .img-fluid{border-radius: 1rem;}
+            .newButton{text-align: right; width: 90%;}
+            .newButton a{padding: 0.5rem;}
+            .login{margin-top: 5.8rem; background-color: black; border-radius: 30px !important;}
+         </style>
+    </head>
+    <body id="page-top">
+         <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 side_bar" style="border-right: 1px solid #c5c5c5;" th:fragment="menubar">
+                    <a href="create.html" class="btn btn-primary btn-lg btn-block login" href="create.html" role="button">+ NEW</a>
+                    <ul >
+                        <div class="sideLi" >
+                            <li><a href="main.html">Continues</a></li>
+                            <div ></div>
+                        </div>
+                        <div class="sideLi">
+                            <li><a href="">Done</a></li>
+                            <div ></div>
+                        </div>
+                        <div class="sideLi">
+                            <li><a href="">Delete</a></li>
+                            <div></div>
+                        </div>
+                    </ul>
+                    <hr />
+                    <div class="column"><a  href="mypage.html" class="btn btn-primary btn-xl sideBtn"  type="submit"> ID</a></div>
+                    <div class="column"> <a href="noti.html" class="btn btn-primary btn-xl sideBtn"  type="submit">noti</a></div>
+                </div>
+                <div class="col-10">
+                    <div class="row">
+                        <!-- Navigation-->
+                        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+                            <div  class="logo"><a class="navbar-brand" href="main.html">LOGO</a></div>
+                            <div class="container">
+                                <form action="#" class="searchForm" >
+                                    <div class="form-group has-search">
+                                        <span  style="margin-left: 15px; width: 15px;" class="fa fa-search form-control-feedback"></span>
+                                        <input  style="width: 100%;" type="text" class="form-control searchInput">
+                                    </div>
+                                </form>
+                                <div>
+                                    <a class="pcprofile" href="main.html"><img src="assets/img/pcprofile.svg" alt="..." /></a>
+                                </div>
+                            </div>
+                        </nav>
+                        <section class="page-section" id="contact">
+                            <div class="newButton">
+                                <a href="create.html"><i class="fa-solid fa-pen"></i></a>
+                            </div>
+                            <div class="container">
+                                <!-- Section Form-->
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8 col-xl-7">
+                                        <form >
+                                            <!-- Memo input-->
+                                            <div class="form-floating mb-3" style="margin-bottom: unset !important;">
+                                                <input style="border: unset; font-size: 2rem;" class="form-control disableInput" type="text" value="Title" disabled />
+                                                
+                                            </div>
+                                            <div>
+                                                <div class="row image3">
+                                                    <div class="column">
+                                                       <div class="form-input" >
+                                                           <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                       </div>
+                                                    </div>
+                                                     <div class="column">
+                                                       <div class="form-input" >
+                                                           <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                       </div>
+                                                    </div>
+                                                     <div class="column">
+                                                       <div class="form-input" >
+                                                           <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-floating mb-3  input-group forminput">
+                                                    <texarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;" class="form-control disableInput" type="text" disabled>파란 하늘이 아름다운 여름 오후다
+                                                    </texarea>
+                                                </div>
+                                                  <div class="row image3">
+                                                     <div class="column">
+                                                          <img class="img-fluid" src="assets/img/portfolio/cake.png" alt="..." />
+                                                    </div>
+                                                      <div class="column">
+                                                         <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
+                                                     </div>
+                                                      <div class="column">
+                                                        <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
+                                                     </div>
+                                                 </div>
+                                                 <div>
+                                                     <texarea style="border: unset; font-size: 1rem;padding-top: 0.5rem" class="form-control disableInput" type="text" disabled>가을 별을 별빛이 이런 하나의 별 그리워 많은 있습니다. 
+                                                    한 어머니 묻힌 북간도에 쓸쓸함과 새겨지는 풀이 사람들의 있습니다.
+                                                    새겨지는 못 멀리 것은 이런 별 비둘기, 덮어 버리었습니다. 별 이웃 나는 봅니다. 
+                                                    라이너 별에도 쉬이 많은 벌레는 까닭입니다. 잔디가 사람들의 별에도 까닭입니다.
+
+                                                </texarea>
+                                                 </div>
+                                            </div>
+                                            <div class="row btnGroup">
+                                                <div class="column colDiv"><a  href="main.html" class="btn btn-primary btn-xl hideBtn"  type="submit">Done </a></div>
+                                                <div class="column colDiv"><a  href="#" class="btn btn-primary btn-xl hideBtn"  type="submit">Copy </a></div>
+                                                <div class="column colDiv"> <a href="#" class="btn btn-primary btn-xl hideBtn"  type="submit"> Export</a></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- Copyright Section-->
+       <!--  <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Mustard Drawing &copy;  2022</small></div>
+        </div> -->
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="js/multiple-uploader.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </body>
+</html>

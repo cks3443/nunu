@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title></title>
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/newStyle.css" rel="stylesheet" />
+         <link href="css/main.css" rel="stylesheet" />
+          <style type="text/css">
+             @media all and (max-width:700px) {
+                #mainNav{display: none}
+                .page-section{padding: 0rem 0;}
+                .btnGroup .saveBtn{width: 100% !important;}
+                .profile{display: none;}
+                form{padding-top: 35px}
+                .searchForm{display: none;}
+            }
+            .saveBtn a{ border-radius: 0.93rem !important;}
+            .image3 .column{width: 31%; padding: 10px 5px 10px 5px; margin-left: 5px;}
+            .btnGroup .column{width: 50%;}
+            .btnGroup {width: 50%; float: right;}
+            .image3 .col-1{width: 1%;}
+            .alignType{z-index: 2;}
+            .alignType a:hover{color: black; opacity: unset;}
+            .login{margin-top: 7.8rem; background-color: black; border-radius: 30px !important;}
+            .column .mup-main-msg{font-size: 0.7rem;color: #B8B8B8;}
+            /* RIGHT CLICK CSS */
+            .contextMenu {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            color: #ffffff;
+            background: #262933;
+            border: 1px solid #333333;
+            box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.5);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            display: none;
+            z-index: 4;
+            }
+            .contextMenu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                z-index: 4;
+            }
+            .contextMenu ul li {
+                border-bottom: #ffffff 1px solid;
+                padding: 0;
+                margin: 0;
+            }
+            .contextMenu ul li:last-child{
+                border-bottom: none;
+            }
+            .contextMenu ul li a{
+                text-align: left;
+                display: block;
+                padding: 5px 10px;
+                color: #ffffff;
+                text-transform: capitalize;
+                text-decoration: none;
+            }
+            .contextMenu ul li a:hover {
+                background: #2777FF;
+            }
+         </style>
+    </head>
+    <body id="page-top">
+         <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 side_bar" style="border-right: 1px solid #c5c5c5;" th:fragment="menubar">
+                    <a href="create.html" class="btn btn-primary btn-lg btn-block login" href="create.html" role="button">+ NEW</a>
+                    <ul >
+                        <div class="sideLi" >
+                            <li><a href="main.html">Continues</a></li>
+                            <div ></div>
+                        </div>
+                        <div class="sideLi">
+                            <li><a href="">Done</a></li>
+                            <div ></div>
+                        </div>
+                        <div class="sideLi">
+                            <li><a href="">Delete</a></li>
+                            <div></div>
+                        </div>
+                    </ul>
+                    <hr />
+                    <div class="column"><a  href="mypage.html" class="btn btn-primary btn-xl sideBtn"  type="submit"> ID</a></div>
+                    <div class="column"> <a href="noti.html" class="btn btn-primary btn-xl sideBtn"  type="submit">noti</a></div>
+                </div>
+                <div class="col-10">
+                    <div class="row">
+                        <!-- Navigation-->
+                        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+                            <div  class="logo"><a class="navbar-brand" href="main.html">LOGO</a></div>
+                            <div class="container mobileContainer">
+                                <form action="#" class="searchForm" >
+                                    <div class="form-group has-search">
+                                        <span  style="margin-left: 15px; width: 15px;" class="fa fa-search form-control-feedback"></span>
+                                        <input  style="width: 100%;" type="text" class="form-control searchInput">
+                                    </div>
+                                </form>
+                                <!-- <div>
+                                    <a class="pcprofile" href="main.html"><img src="assets/img/pcprofile.svg" alt="..." /></a>
+                                </div> -->
+                            </div>
+                        </nav>
+                        <section class="page-section" id="contact">
+                            <div class="container">
+                                <!-- Section Form-->
+                                <div class="row justify-content-center" >
+                                    <div class="fontStyle">
+                                        <div class="btn-group"  role="group" aria-label="Basic checkbox toggle button group">
+                                            <button type="button" class="btn btn-outline-primary" >가벼운</button>
+                                            <button type="button" class="btn btn-outline-primary" >산뜻한</button>
+                                            <button type="button" class="btn btn-outline-primary" >반듯한</button>
+                                            <button type="button" class="btn btn-outline-primary" >정중한</button>
+                                            <button type="button" class="btn btn-outline-primary" >진지한</button>
+                                            <a href="block_edit.html" type="button" class="btn btn-outline-primary" style="max-width: 100px;background-color:black; color:white; opacity:unset" >블록편집</a>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                    <div>
+                                        <div class="btn-group alignType" role="group"  >
+                                            <button type="button" class="btn btn-outline-primary" ><i class="fa-solid fa-align-left"></i></button>
+                                            <button type="button" class="btn btn-outline-primary" ><i class="fa-solid fa-align-center"></i></button>
+                                            <button type="button" class="btn btn-outline-primary" ><i class="fa-solid fa-align-right"></i></button>
+                                            <button type="button" class="btn btn-outline-primary" ><i class="fa-solid fa-align-justify"></i></button>
+                                            <a href="mobile_view.html" style="border: 0 !important;" type="button" class="btn btn-outline-primary" ><i class="fa-solid fa-mobile-screen"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-xl-7">
+                                        <form >
+                                            <!-- Memo input-->
+                                            <div class="form-floating mb-3" style="margin-bottom: unset !important;">
+                                                <input  style="border: unset; font-size: 1.5rem; width: 100%; text-align: center;" class="form-control" type="text" placeholder="Enter your title..."  />
+                                                <label for="name">Title</label>
+                                            </div>
+                                            <!-- SubHeading1 input-->
+                                              <div id="repeatDiv" class="repeatDiv">
+                                                <span style="float: right; color:#ced4da; font-size: 25px;">...</span>
+                                                <div>
+                                                    <div class="form-floating mb-3  input-group forminput">
+                                                        <input class="form-control subHead" type="text" placeholder="Your SubHeading1"/>
+                                                        <label >SubHeading1</label>
+                                                    </div>
+                                                    <div id="repeatKeyword" class="form-floating mb-3  input-group forminput repeatKeyword">
+                                                        <input class="form-control addstyle" type="text" placeholder="Keyword"></input>
+                                                        <label>Keyword</label>
+                                                         <button onclick="show1()" class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-group " id ="hiddenChoose1" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <button type="button" class="btn btn-outline-primary" id="repeatDivBtn" data-increment="1" data-toggle="modal" ><i class="fa-solid fa-equals"></i></button>
+                                                        <button type="button" class="btn btn-outline-primary"  id="repeatKeywordBtn" data-increment="1" data-toggle="modal" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                                        <button type="button" class="btn btn-outline-primary"  data-toggle="modal" onclick="showFrame()"  ><i class="fa-regular fa-images"></i></button>
+                                                        <button type="button" class="btn btn-outline-primary" onclick="showImages()" data-toggle="modal" ><i class="fa-regular fa-image"></i></button>
+                                                    </div>  
+                                                    <!-- <div class="center">
+                                                        <div class="form-input">
+                                                          <div class="preview">
+                                                            <img id="file-ip-1-preview">
+                                                          </div>
+                                                          <label for="file-ip-1">Upload Image</label>
+                                                          <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                          
+                                                        </div>
+                                                      </div>  -->
+                                                    <div id="frame">
+                                                         <div class="row" style="padding: 0 30px;">
+                                                             <div class="column">
+                                                                <div class="form-input">
+                                                                    <div class="preview"></div>
+                                                                      <label for="file-ip-1">
+                                                                        <img id="file-ip-1-preview" src="assets/img/image_frame.svg"/>
+                                                                      </label>
+                                                                      <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                                </div>
+                                                             </div>
+                                                             <div class="column">
+                                                                <div class="form-input">
+                                                                    <div class="preview"></div>
+                                                                      <label for="file-ip-1">
+                                                                        <img id="file-ip-1-preview" src="assets/img/image_frame.svg"/>
+                                                                      </label>
+                                                                      <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                                </div>
+                                                             </div>
+                                                         </div>
+                                                    </div>
+                                                    <div class="upload__img-wrap"></div>
+                                                    <!-- MULTIPLE IMAGE UPLOAD-->
+                                                  <form1 class="imageForm" action="" method="" enctype="multipart/form-data" id="my-form"></form1>
+                                                    <div class="multiple-uploader" id="multiple-uploader">
+                                                        <div class="mup-msg">
+                                                            <span class="mup-main-msg">+ Files</span>
+                                                            <span class="mup-msg" id="max-upload-number"></span>
+                                                            <span class="mup-msg">(image, pdf, psd)</span>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row image3">
+                                                        <div class="column">
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                  <label for="file-ip-1">
+                                                                    <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                                  </label>
+                                                                  <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                            </div>
+                                                         </div>
+                                                          <div class="column">
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                  <label for="file-ip-1">
+                                                                    <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                                  </label>
+                                                                  <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                            </div>
+                                                         </div>
+                                                          <div class="column">
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                  <label for="file-ip-1">
+                                                                    <img src="assets/img/Image_frame_pc.svg"  alt="..." />
+                                                                  </label>
+                                                                  <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                            </div>
+                                                         </div>
+                                                          <div class="col-1">
+                                                            <i style="margin-top:1rem;" class="fa-solid fa-ellipsis-vertical"></i>
+                                                          </div>
+                                                     </div>
+                                                     <div>
+                                                         <textarea style="width: 100%;" class="form-control textArea" type="text" placeholder=""></textarea>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="row btnGroup">
+                                                <div class="column colDiv"><a  href="#" class="btn btn-primary btn-xl hideBtn"  type="submit"> <img src="assets/img/hide.svg" alt="..." /> &nbsp; Sketch All </a></div>
+                                                <div class="column colDiv"> <a href="#" class="btn btn-primary btn-xl hideBtn"  type="submit"> <img src="assets/img/hide.svg" alt="..." />&nbsp; Keyword</a></div>
+                                            </div>
+                                            <div class="saveBtn"> <a href="main.html" style=" width: 100%; margin-top: 20px;" class="btn btn-primary btn-xl"  type="submit">save</a></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div> 
+       
+        <!-- Copyright Section-->
+       <!--  <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Mustard Drawing &copy;  2022</small></div>
+        </div> -->
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="js/multiple-uploader.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $("#repeatDivBtn").click(function () {
+                    document.getElementById("multiple-uploader").style.display = "none";
+                    document.getElementById("hiddenChoose1").style.display = "none";
+                    $newid = $(this).data("increment");
+                    $repeatDiv = $("#repeatDiv").wrap('<div/>').parent().html();
+                    $('#repeatDiv').unwrap();
+                    $($repeatDiv).insertAfter($(".repeatDiv").last());
+                    $(".repeatDiv").last().attr('id',   "repeatDiv" + '_' + $newid);
+                    $(this).data("increment", $newid);
+                     
+
+                });
+                $("#repeatKeywordBtn").click(function () {
+                    document.getElementById("multiple-uploader").style.display = "none";
+                    document.getElementById("hiddenChoose1").style.display = "none";
+                    $newid = $(this).data("increment");
+                    $repeatDiv = $("#repeatKeyword").wrap('<div/>').parent().html();
+                    $('#repeatKeyword').unwrap();
+                    $($repeatDiv).insertAfter($(".repeatKeyword").last());
+                    $(".repeatKeyword").last().attr('id',   "repeatKeyword" + '_' + $newid);
+                    $(this).data("increment", $newid);
+
+                });
+            });
+            function show1() {
+                    document.getElementById("hiddenChoose1").style.display = "inline-flex";
+                }
+            function showImages() {
+                document.getElementById("multiple-uploader").style.display = "flex";
+                document.getElementById("frame").style.display = "none";
+
+            }
+            function showFrame() {
+
+                document.getElementById("frame").style.display = "block";
+                document.getElementById("multiple-uploader").style.display = "none";
+            }
+            function showPreview(event){
+            if(event.target.files.length > 0){
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("file-ip-1-preview");
+                preview.src = src;
+                preview.style.display = "block";
+            }
+            }
+
+            let multipleUploader = new MultipleUploader('#multiple-uploader').init({
+                maxUpload : 5, // maximum number of uploaded images
+                maxSize:2, // in size in mb
+                filesInpName:'images', // input name sent to backend
+                formSelector: '#my-form', // form selector
+            });
+
+            /* RIGHT CLICK FUNCTION*/
+            _currentMenuVisible = null;
+            document.addEventListener('contextmenu', e => {
+                e.preventDefault();
+                createContextMenu(e.clientX,e.clientY);
+            });
+            document.addEventListener('click', e => {
+                closeCurrentlyOpenedMenu();
+            });
+
+            /* close context menu */
+            window.onkeyup = function(e) {
+                if (e.keyCode === 27) {
+                    closeCurrentlyOpenedMenu();
+                }
+            }
+
+            function createContextMenu(x, y) {
+                closeCurrentlyOpenedMenu();
+                const ctxMenuElem =  document.createElement('div');
+                ctxMenuElem.classList.add('contextMenu');
+                const ulElem =  document.createElement('ul');
+                const menuArr = ['copy', 'delete'];
+                for (let ele of menuArr) {
+                    let liElem =  document.createElement('li');
+                    liElem.innerHTML = '<a href="#">' + ele + '</a>';
+                    ulElem.appendChild(liElem);
+                }
+                ctxMenuElem.appendChild(ulElem);
+                document.body.appendChild(ctxMenuElem);
+                _currentMenuVisible = ctxMenuElem;
+                ctxMenuElem.style.display = 'block';
+                ctxMenuElem.style.left = x + "px";
+                ctxMenuElem.style.top = y + "px";
+            }
+
+            function closeContextMenu(menu) {
+                menu.style.left='0px';
+                menu.style.top='0px';
+                document.body.removeChild(menu);
+                _currentMenuVisible = null;
+            }
+
+            function closeCurrentlyOpenedMenu() {
+                if (_currentMenuVisible !== null) {
+                    closeContextMenu(_currentMenuVisible);
+                }
+            }
+        </script>
+    </body>
+</html>
