@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<style type="text/css" th:fragment="styleFragment">
+    @media all and (max-width: 700px) {
+        #mainNav {
+            display: none
+        }
+
+        .page-section {
+            padding: 0rem 0;
+        }
+
+        .btnGroup .saveBtn {
+            width: 100% !important;
+        }
+
+        .profile {
+            display: none;
+        }
+
+        form {
+            padding-top: 35px
+        }
+
+        .searchForm {
+            display: none;
+        }
+    }
+
+    .saveBtn a {
+        border-radius: 0.93rem !important;
+    }
+
+    .image3 .column {
+        width: 31%;
+        padding: 10px 5px 10px 5px;
+        margin-left: 5px;
+    }
+
+    .btnGroup .column {
+        width: 50%;
+    }
+
+    .btnGroup {
+        width: 50%;
+        float: right;
+    }
+
+    .image3 .col-1 {
+        width: 1%;
+    }
+
+    .alignType {
+        z-index: 2;
+    }
+
+    .alignType a:hover {
+        color: black;
+        opacity: unset;
+    }
+
+    .login {
+        margin-top: 7.8rem;
+        background-color: black;
+        border-radius: 30px !important;
+    }
+
+    .column .mup-main-msg {
+        font-size: 0.7rem;
+        color: #B8B8B8;
+    }
+
+    /* RIGHT CLICK CSS */
+    .contextMenu {
+        position: absolute;
+        width: 100px;
+        height: auto;
+        color: #ffffff;
+        background: #262933;
+        border: 1px solid #333333;
+        box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.5);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: none;
+        z-index: 4;
+    }
+
+    .contextMenu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        z-index: 4;
+    }
+
+    .contextMenu ul li {
+        border-bottom: #ffffff 1px solid;
+        padding: 0;
+        margin: 0;
+    }
+
+    .contextMenu ul li:last-child {
+        border-bottom: none;
+    }
+
+    .contextMenu ul li a {
+        text-align: left;
+        display: block;
+        padding: 5px 10px;
+        color: #ffffff;
+        text-transform: capitalize;
+        text-decoration: none;
+    }
+
+    .contextMenu ul li a:hover {
+        background: #2777FF;
+    }
+</style>
+
+<div class="col-2 side_bar" style="border-right: 1px solid #c5c5c5;" th:fragment="menubar">
+    <a href="#" class="btn btn-primary btn-lg btn-block login" role="button">
+        +
+        NEW</a>
+    <ul>
+        <div class="sideLi">
+            <li><a href="main.html">Continues</a></li>
+            <div></div>
+        </div>
+        <div class="sideLi">
+            <li><a href="">Done</a></li>
+            <div></div>
+        </div>
+        <div class="sideLi">
+            <li><a href="">Delete</a></li>
+            <div></div>
+        </div>
+    </ul>
+    <hr/>
+    <div class="column"><a href="mypage.html" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a></div>
+    <div class="column"><a href="noti.html" class="btn btn-primary btn-xl sideBtn" type="submit">noti</a></div>
+</div>
+
+<nav
+        class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
+        id="mainNav"
+
+        th:fragment="navbar"
+>
+    <div class="logo"><a class="navbar-brand" href="main.html">LOGO</a></div>
+    <div class="container mobileContainer">
+        <form action="#" class="searchForm">
+            <div class="form-group has-search">
+                                <span style="margin-left: 15px; width: 15px;"
+                                      class="fa fa-search form-control-feedback"></span>
+                <input style="width: 100%;" type="text" class="form-control searchInput">
+            </div>
+        </form>
+    </div>
+</nav>
+
+</body>
+</html>

@@ -14,7 +14,7 @@ class Sub() : Base() {
     @set:Transient
     open var keywords: MutableList<String>
         get() {
-            if (keyword_storage == null || keyword_storage == "") {
+            if (keyword_storage == null) {
                 return mutableListOf()
             }
 
@@ -23,4 +23,8 @@ class Sub() : Base() {
         set(value) {
             keyword_storage = value.joinToString(delimiter)
         }
+
+
+    @Transient
+    open var showControlPanel: Boolean = false
 }
