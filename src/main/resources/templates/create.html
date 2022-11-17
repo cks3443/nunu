@@ -134,6 +134,8 @@
                                                             type="button"
                                                             class="btn btn-outline-primary"
                                                             style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="addKeyword(index)"
                                                     >
                                                         <i class="fa fa-minus"></i>
                                                     </button>
@@ -142,6 +144,8 @@
                                                             type="button"
                                                             class="btn btn-outline-primary"
                                                             style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="addImage(index)"
                                                     >
                                                         <i class="fa-regular fa-images"></i>
                                                     </button>
@@ -155,39 +159,51 @@
                                                     </button>
 
                                                 </div>
-                                            </div>
 
 
-                                            <div id="frame">
-                                                <div class="row" style="padding: 0 30px;">
-                                                    <div class="column">
-                                                        <div class="form-input">
-                                                            <div class="preview"></div>
-                                                            <label>
-                                                                <img
-                                                                        th:src="@{/assets/img/image_frame.svg}"
+                                                <div
+                                                        v-if="sub.images.length != 0"
+                                                >
+                                                    <div class="row" style="padding: 0 30px;">
+                                                        <div
+                                                                class="column"
+
+                                                                v-for="(img_id, img_index) in post.subs[index].images"
+                                                        >
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                <label
+                                                                        v-bind:for="'id_' + index + '_' + img_index"
+                                                                >
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] == ''"
+                                                                            src="/assets/img/image_frame.svg"
+                                                                    />
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] != ''"
+                                                                            v-bind:src="'/files/' + img_id"
+                                                                    />
+                                                                </label>
+                                                                <input
+                                                                        @change="uploadImageEventHandler(index, img_index, $event)"
+                                                                        v-bind:id="'id_' + index + '_' + img_index"
+                                                                        type="file"
+                                                                        accept="image/*"
                                                                 />
-                                                            </label>
-                                                            <input type="file" accept="image/*"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="column">
-                                                        <div class="form-input">
-                                                            <div class="preview"></div>
-                                                            <label>
-                                                                <img id="file-ip-1-preview"
-                                                                     th:src="@{/assets/img/image_frame.svg}"/>
-                                                            </label>
-                                                            <input type="file" accept="image/*"/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
+
+
                                             <div class="upload__img-wrap"></div>
                                             <!-- MULTIPLE IMAGE UPLOAD-->
-                                            <form1 class="imageForm" action="" method=""
-                                                   enctype="multipart/form-data"
-                                                   id="my-form"></form1>
+                                            <form class="imageForm" action="" method=""
+                                                  enctype="multipart/form-data"
+                                                  id="my-form"></form>
                                             <div class="multiple-uploader" id="multiple-uploader">
                                                 <div class="mup-msg">
                                                     <span class="mup-main-msg">+ Files</span>
@@ -306,11 +322,38 @@
                     .then((r) => {
                         if (r.ok) return r.json()
                     })
-                    .then((post) => {
-                        this.post = post
+                    .then((sub) => {
+
+                        this.post.subs.splice(index + 1, 0, sub)
                     })
 
-            }
+            },
+
+            addKeyword: function (pindex) {
+                this.post.subs[pindex].keywords.push("")
+            },
+
+            addImage: function (index) {
+                if (this.post.subs[index].images.length < 3) {
+
+                    this.post.subs[index].images.push("")
+                }
+            },
+            uploadImageEventHandler: function (index, img_index, $event) {
+                let data = new FormData()
+
+                data.append('file', event.target.files[0])
+
+                fetch('/upload', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.text()
+                    })
+                    .then((url) => {
+                        this.post.subs[index].images[img_index] = url
+
+                        this.$forceUpdate()
+                    })
+            },
         }
     })
 

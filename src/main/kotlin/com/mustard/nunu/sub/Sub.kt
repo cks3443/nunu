@@ -27,4 +27,10 @@ class Sub() : Base() {
 
     @Transient
     open var showControlPanel: Boolean = false
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "sub_images", joinColumns = [JoinColumn(name = "owner_id")])
+    @Column(name = "image")
+    open var images: MutableList<String> = mutableListOf()
 }
