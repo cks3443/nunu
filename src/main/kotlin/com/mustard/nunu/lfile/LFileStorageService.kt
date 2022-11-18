@@ -27,6 +27,16 @@ class LFileStorageService(
         }
     }
 
+    fun multiStore(files: MutableList<MultipartFile>): MutableList<LFile?> {
+
+        val lfiles = files.map {
+
+            store(it)
+        }.toMutableList()
+
+        return lfiles
+    }
+
     fun getLFile(id: String): LFile {
         return lfiles.findById(id).get()
     }

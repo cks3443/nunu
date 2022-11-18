@@ -37,6 +37,34 @@ class LFileController(
         }
     }
 
+    @PostMapping("/muploads")
+    fun uploadMutipleFile(
+        @RequestParam("files") files: MutableList<MultipartFile>
+    ): ResponseEntity<MutableList<String>> {
+
+        return try {
+
+            val lfiles = storageService.multiStore(files)
+
+            val namelist = lfiles.map {
+
+                var file_name = ""
+
+                it?.let { l_it ->
+                    file_name = "${l_it.id!!}|${l_it.name}"
+                }
+
+                file_name
+            }.toMutableList()
+
+            ResponseEntity.ok().body(namelist)
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mutableListOf())
+        }
+    }
+
     @GetMapping("/files/{id}")
     fun getLFile(
         @PathVariable id: String,

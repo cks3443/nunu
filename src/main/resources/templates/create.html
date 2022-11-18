@@ -154,6 +154,8 @@
                                                             type="button"
                                                             class="btn btn-outline-primary"
                                                             style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="clickImgBtnHandler(index)"
                                                     >
                                                         <i class="fa-regular fa-image"></i>
                                                     </button>
@@ -196,21 +198,40 @@
                                                 </div>
 
 
-                                            </div>
+                                                <div
+                                                        style="margin: 0px;padding: 0px;"
 
+                                                        v-if="post.subs[index].showFileUploadPan"
+                                                >
+                                                    <div class="upload__img-wrap"></div>
+                                                    <!-- MULTIPLE IMAGE UPLOAD-->
+                                                    <input
+                                                            type="file"
+                                                            class="imageForm"
+                                                            v-bind:id="'my-form-' + index"
+                                                            multiple
+                                                            style="display: none;"
 
-                                            <div class="upload__img-wrap"></div>
-                                            <!-- MULTIPLE IMAGE UPLOAD-->
-                                            <form class="imageForm" action="" method=""
-                                                  enctype="multipart/form-data"
-                                                  id="my-form"></form>
-                                            <div class="multiple-uploader" id="multiple-uploader">
-                                                <div class="mup-msg">
-                                                    <span class="mup-main-msg">+ Files</span>
-                                                    <span class="mup-msg" id="max-upload-number"></span>
-                                                    <span class="mup-msg">(image, pdf, psd)</span>
+                                                            accept="image/*, .pdf, .psd"
+
+                                                            @change="changeFileUploadHandler($event, index)"
+                                                    />
+                                                    <label
+                                                            v-bind:for="'my-form-' + index"
+                                                            style="display: flex;"
+                                                            class="multiple-uploader"
+                                                            id="multiple-uploader"
+                                                    >
+                                                        <div class="mup-msg">
+                                                            <span class="mup-main-msg">+ Files</span>
+                                                            <span class="mup-msg" id="max-upload-number"></span>
+                                                            <span class="mup-msg">(image, pdf, psd)</span>
+                                                        </div>
+                                                    </label>
                                                 </div>
                                             </div>
+
+
                                             <div class="row image3">
                                                 <div class="column">
                                                     <div class="form-input">
@@ -316,8 +337,6 @@
 
                 let urlroot = '/api/v1/subs'
 
-                //TODO
-
                 fetch(urlroot, {method: 'POST'})
                     .then((r) => {
                         if (r.ok) return r.json()
@@ -339,7 +358,7 @@
                     this.post.subs[index].images.push("")
                 }
             },
-            uploadImageEventHandler: function (index, img_index, $event) {
+            uploadImageEventHandler: function (index, img_index, event) {
                 let data = new FormData()
 
                 data.append('file', event.target.files[0])
@@ -353,6 +372,38 @@
 
                         this.$forceUpdate()
                     })
+            },
+
+            clickImgBtnHandler: function (index) {
+                this.post.subs[index].showFileUploadPan = !(this.post.subs[index].showFileUploadPan)
+
+                this.$forceUpdate()
+            },
+
+            changeFileUploadHandler: function (event, index) {
+
+                let data = new FormData()
+
+                if (event.target.files.length == 0) return
+
+                [0, 1, 2, 3, 4].forEach((v) => {
+
+                    if (v <= event.target.files.length - 1) {
+
+                        data.append('files', event.target.files[v])
+                    }
+                })
+
+
+                fetch('/muploads', {method: 'POST', body: data})
+                    .then(r => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((d) => {
+
+                        this.post.subs[index].files = d
+                    })
+
             },
         }
     })
