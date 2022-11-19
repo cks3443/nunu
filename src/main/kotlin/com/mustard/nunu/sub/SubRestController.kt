@@ -28,7 +28,7 @@ class SubRestController(
 
                 sub = Sub()
 
-                sub!!.keyword_storage = ""
+                sub!!.keywords.add("")
             }
 
             ResponseEntity.ok().body(sub)

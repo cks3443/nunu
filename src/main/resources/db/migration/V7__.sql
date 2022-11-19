@@ -1,0 +1,2 @@
+ALTER TABLE sub
+    ADD heading VARCHAR(1000);

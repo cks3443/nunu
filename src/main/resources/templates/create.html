@@ -87,6 +87,8 @@
                                                             type="text"
                                                             placeholder="Your SubHeading1"
                                                             style="padding: 10px;"
+
+                                                            v-model="post.subs[index].heading"
                                                     />
                                                     <label>{{'SubHeading' + (index + 1)}}</label>
                                                 </div>
@@ -235,7 +237,10 @@
 
                                                         <div
                                                                 class="image-container"
-                                                                style="margin-bottom: 2px;"
+                                                                style="
+                                                                    margin-block-start: 10px;
+                                                                    margin-block-end: 10px;
+                                                                "
                                                                 v-for="(file_str, file_index) in post.subs[index].files"
 
                                                                 v-if="containPdfPsd(file_str) == false"
@@ -248,6 +253,7 @@
                                                                 padding: 2px;
                                                                 color: red;
                                                             "
+                                                                 v-on:click="removeFileString($event, index, file_str)"
                                                             >
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                      height="22" fill="currentColor" viewBox="0 0 16 16"
@@ -263,8 +269,27 @@
                                                         </div>
                                                         <div
                                                                 v-else
+
+                                                                style="
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    background-color: rgb(247,247,247);
+                                                                    border-radius: 3px;
+                                                                    padding: 3px;
+                                                                    margin-block-end: 10px;
+                                                                    margin-block-start: 10px;
+                                                                "
                                                         >
-                                                            <span>
+                                                            <span
+                                                                    style="
+                                                                        background-color: lightyellow;
+                                                                        color: red;
+                                                                        border-radius: 3px;
+                                                                        margin-right: 5px;
+                                                                        padding: 2px;"
+
+                                                                    v-on:click="removeFileString($event, index, file_str)"
+                                                            >
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                      height="22" fill="currentColor" viewBox="0 0 16 16"
                                                                      class="bi bi-x-circle">
@@ -328,19 +353,36 @@
 
 
                                     <div class="row btnGroup">
-                                        <div class="column colDiv"><a href="#" class="btn btn-primary btn-xl hideBtn"
-                                                                      type="submit">
-                                            <img th:src="@{/assets/img/hide.svg}"
-                                                 alt="..."/> &nbsp; Sketch All
-                                        </a></div>
+                                        <div class="column colDiv">
+                                            <a href="#" class="btn btn-primary btn-xl hideBtn"
+                                               type="submit">
+                                                <img th:src="@{/assets/img/hide.svg}"
+                                                     alt="..."/> &nbsp; Sketch All
+                                            </a></div>
                                         <div class="column colDiv"><a href="#" class="btn btn-primary btn-xl hideBtn"
                                                                       type="submit">
                                             <img th:src="@{/assets/img/hide.svg}"
                                                  alt="..."/>&nbsp; Keyword</a>
                                         </div>
                                     </div>
-                                    <div class="saveBtn"><a href="main.html" style=" width: 100%; margin-top: 20px;"
-                                                            class="btn btn-primary btn-xl" type="submit">save</a></div>
+                                    <div
+                                            class="saveBtn"
+
+                                            style="
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                margin-top: 15px;
+                                            "
+                                    >
+                                        <div style=" width: 100%;"
+                                             class="btn btn-primary btn-xl"
+
+                                             v-on:click="savePost($event, 'CONTINUE')"
+                                        >
+                                            save
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -360,6 +402,9 @@
             id: [[${id}]],
             post: null,
             delimiter: '|',
+            CONTINUE: 'CONTINUE',
+            DONE: 'DONE',
+            DELETE: 'DELETE',
         },
         beforeMount: function () {
             let urlroot = '/api/v1/posts'
@@ -476,6 +521,35 @@
                 const _id_name_ext = this.splitFilesString(file_string)
 
                 return _id_name_ext
+            },
+
+            removeFileString: function (event, index, file_str) {
+                event.preventDefault()
+
+                let files = this.post.subs[index].files
+
+                this.post.subs[index].files = files.filter((file_string) => {
+                    return file_string != file_str
+                })
+            },
+
+            savePost: function (event, state) {
+                event.preventDefault()
+
+                this.post.state = state
+
+                let data = new FormData()
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+                    })
+
             }
         },
 

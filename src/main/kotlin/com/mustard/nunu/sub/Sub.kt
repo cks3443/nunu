@@ -10,19 +10,15 @@ class Sub() : Base() {
     @Column(name = "keyword_storage", length = 2000)
     open var keyword_storage: String? = null
 
-    @get:Transient
-    @set:Transient
-    open var keywords: MutableList<String>
-        get() {
-            if (keyword_storage == null) {
-                return mutableListOf()
-            }
-
-            return keyword_storage!!.split(delimiter).toMutableList()
-        }
-        set(value) {
-            keyword_storage = value.joinToString(delimiter)
-        }
+//    @Transient
+//    open var keywords: MutableList<String> = mutableListOf()
+//        get() {
+//            if (keyword_storage == null) {
+//                return mutableListOf()
+//            }
+//
+//            return keyword_storage!!.split(delimiter).toMutableList()
+//        }
 
 
     @Transient
@@ -41,4 +37,13 @@ class Sub() : Base() {
     @CollectionTable(name = "sub_files", joinColumns = [JoinColumn(name = "owner_id")])
     @Column(name = "file", length = 500)
     open var files: MutableList<String> = mutableListOf()
+
+
+    @Column(name = "heading", length = 1000)
+    open var heading: String? = null
+
+    @ElementCollection
+    @CollectionTable(name = "sub_keywords", joinColumns = [JoinColumn(name = "owner_id")])
+    @Column(name = "keyword", length = 1000)
+    open var keywords: MutableSet<String> = mutableSetOf()
 }
