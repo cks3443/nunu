@@ -78,9 +78,18 @@
                                         </div>
 
                                         <!-- SubHeading1 input-->
-                                        <div id="repeatDiv" class="repeatDiv">
-                                            <div v-for="(sub, index) in post.subs">
-                                                <span style="float: right; color:#ced4da; font-size: 25px;">...</span>
+                                        <div id="draggable" class="repeatDiv ">
+                                            <div v-for="index in post.ord"
+
+                                                 class="drag-el"
+                                                 :key="index"
+
+                                                 :data-ord="index"
+                                            >
+                                                <span
+                                                        class="drag-handle"
+                                                        style="float: right; color:#ced4da; font-size: 25px;"
+                                                >...</span>
                                                 <div class="form-floating mb-3  input-group forminput">
                                                     <input
                                                             class="form-control subHead"
@@ -95,7 +104,7 @@
                                                 <div
                                                         class="form-floating mb-3  input-group forminput repeatKeyword"
 
-                                                        v-for="(keyword, k) in sub.keywords"
+                                                        v-for="(keyword, k) in post.subs[index].keywords"
                                                 >
                                                     <input
                                                             class="form-control addstyle"
@@ -120,7 +129,7 @@
                                                         role="group"
                                                         aria-label="Basic checkbox toggle button group"
 
-                                                        v-if="sub.showControlPanel"
+                                                        v-if="post.subs[index].showControlPanel"
                                                 >
                                                     <button
                                                             type="button"
@@ -166,7 +175,7 @@
 
 
                                                 <div
-                                                        v-if="sub.showControlPanel && sub.images.length != 0"
+                                                        v-if="post.subs[index].showControlPanel && post.subs[index].images.length != 0"
                                                 >
                                                     <div class="row" style="padding: 0 30px;">
                                                         <div
@@ -203,7 +212,7 @@
                                                 <div
                                                         style="margin: 0px;padding: 0px;"
 
-                                                        v-if="sub.showControlPanel && post.subs[index].showFileUploadPan"
+                                                        v-if="post.subs[index].showControlPanel && post.subs[index].showFileUploadPan"
                                                 >
                                                     <div class="upload__img-wrap"></div>
                                                     <!-- MULTIPLE IMAGE UPLOAD-->
@@ -303,52 +312,50 @@
                                                     </label>
                                                 </div>
                                             </div>
-
-
-                                            <div class="row image3">
-                                                <div class="column">
-                                                    <div class="form-input">
-                                                        <div class="preview"></div>
-                                                        <label>
-                                                            <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                                 alt="..."/>
-                                                        </label>
-                                                        <input type="file" accept="image/*"
-                                                               onchange="showPreview(event);">
-                                                    </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div class="form-input">
-                                                        <div class="preview"></div>
-                                                        <label>
-                                                            <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                                 alt="..."/>
-                                                        </label>
-                                                        <input type="file" accept="image/*"
-                                                               onchange="showPreview(event);">
-                                                    </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div class="form-input">
-                                                        <div class="preview"></div>
-                                                        <label>
-                                                            <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                                 alt="..."/>
-                                                        </label>
-                                                        <input type="file" accept="image/*"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-1">
-                                                    <i style="margin-top:1rem;"
-                                                       class="fa-solid fa-ellipsis-vertical"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <textarea style="width: 100%;" class="form-control textArea" type="text"
-                                                          placeholder=""></textarea>
-                                            </div>
                                         </div>
 
+                                        <div class="row image3">
+                                            <div class="column">
+                                                <div class="form-input">
+                                                    <div class="preview"></div>
+                                                    <label>
+                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
+                                                             alt="..."/>
+                                                    </label>
+                                                    <input type="file" accept="image/*"
+                                                           onchange="showPreview(event);">
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="form-input">
+                                                    <div class="preview"></div>
+                                                    <label>
+                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
+                                                             alt="..."/>
+                                                    </label>
+                                                    <input type="file" accept="image/*"
+                                                           onchange="showPreview(event);">
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="form-input">
+                                                    <div class="preview"></div>
+                                                    <label>
+                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
+                                                             alt="..."/>
+                                                    </label>
+                                                    <input type="file" accept="image/*"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-1">
+                                                <i style="margin-top:1rem;"
+                                                   class="fa-solid fa-ellipsis-vertical"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                                <textarea style="width: 100%;" class="form-control textArea" type="text"
+                                                          placeholder=""></textarea>
+                                        </div>
                                     </div>
 
 
@@ -392,7 +399,16 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+
+<script th:src="@{/webjars/vue/dist/vue.min.js}"></script>
+
+<script th:src="@{/webjars/jquery/3.6.0/dist/jquery.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.13.0/jquery-ui.js}"></script>
+<script th:src="@{/webjars/jquery-ui-touch-punch/0.2.3/jquery.ui.touch-punch.js}"></script>
+
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
+<!--<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>-->
 
 <script>
 
@@ -419,9 +435,24 @@
                 })
                 .then((post) => {
                     this.post = post
+
                 })
         },
         methods: {
+
+            setOrderToSubs: function () {
+                this.post.subs.forEach((sub, i) => {
+
+                    console.log(sub)
+                })
+
+            },
+            sortSubs: function () {
+                this.post.subs = _.sortBy(this.post.subs, (s) => {
+                    return s.ord
+                })
+
+            },
             setShowControlPanelValue: function (index) {
 
                 this.post.subs[index].showControlPanel =
@@ -437,7 +468,9 @@
                     })
                     .then((sub) => {
 
-                        this.post.subs.splice(index + 1, 0, sub)
+                        this.post.subs.push(sub)
+                        let add_id = this.post.subs.length - 1
+                        this.post.ord.splice(index + 1, 0, add_id)
                     })
 
             },
@@ -550,10 +583,34 @@
                         this.post = post
                     })
 
-            }
+            },
+
         },
 
-        computed: {}
+        computed: {},
+
+        updated: function () {
+
+            const self = this
+
+
+            $('#draggable').sortable({
+                handle: '.drag-handle',
+                axis: 'y',
+
+            }).off("sortupdate").on("sortupdate", function (event, ui) {
+
+                let ind = []
+                $('.drag-el').each(function () {
+                    const ord = $(this).data('ord')
+
+                    ind.push(parseInt(ord))
+                })
+
+                self.post.ord = ind
+
+            });
+        }
 
     })
 

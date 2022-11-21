@@ -19,4 +19,10 @@ class Post() : Base() {
     @Enumerated(EnumType.STRING)
     @Column(name = "state_enum")
     open var state: StateEnum? = null
+
+
+    @ElementCollection
+    @CollectionTable(name = "post_ord", joinColumns = [JoinColumn(name = "owner_id")])
+    @Column(name = "ord")
+    open var ord: MutableList<Int> = mutableListOf(0)
 }
