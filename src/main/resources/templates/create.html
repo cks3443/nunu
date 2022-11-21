@@ -79,7 +79,7 @@
 
                                         <!-- SubHeading1 input-->
                                         <div id="draggable" class="repeatDiv ">
-                                            <div v-for="index in post.ord"
+                                            <div v-for="(index, index_label) in post.ord"
 
                                                  class="drag-el"
                                                  :key="index"
@@ -99,7 +99,7 @@
 
                                                             v-model="post.subs[index].heading"
                                                     />
-                                                    <label>{{'SubHeading' + (index + 1)}}</label>
+                                                    <label>{{'SubHeading ' + (index_label + 1)}}</label>
                                                 </div>
                                                 <div
                                                         class="form-floating mb-3  input-group forminput repeatKeyword"
@@ -311,51 +311,83 @@
 
                                                     </label>
                                                 </div>
+                                                <div
+                                                        style="margin:0px;padding: 0px;"
+
+                                                        class="draggable-2"
+
+                                                        v-bind:data-index="index"
+                                                >
+
+                                                    <div
+                                                            class="row image3 drag-el-2"
+
+                                                            data-id="0"
+
+                                                            v-for="ord in post.subs[index].ord2"
+
+                                                            v-if="ord == 0"
+                                                    >
+                                                        <div
+                                                                class="column"
+
+                                                                v-for="(fv, fv_index) in post.subs[index].imgframe"
+                                                        >
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+
+                                                                <label
+                                                                        v-bind:for="`fv-${index}-${fv_index}`"
+                                                                >
+                                                                    <img
+                                                                            v-if="fv == ''"
+                                                                            th:src="@{/assets/img/Image_frame_pc.svg}"
+                                                                            alt="..."
+                                                                    />
+                                                                    <img
+                                                                            v-else
+                                                                            v-bind:src="'/files/' + fv"
+                                                                            alt="..."
+                                                                    />
+                                                                </label>
+
+                                                                <input
+                                                                        v-bind:id="`fv-${index}-${fv_index}`"
+                                                                        type="file"
+                                                                        accept="image/*"
+
+                                                                        @change="setImgFrame($event, index, fv_index)"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-1 drag-handle-2">
+                                                            <i style="margin-top:1rem;"
+                                                               class="fa-solid fa-ellipsis-vertical"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                            class="drag-el-2"
+
+                                                            data-id="1"
+
+                                                            v-else
+                                                    >
+                                                        <textarea
+                                                                style="width: 100%;"
+                                                                class="form-control textArea"
+                                                                type="text"
+                                                                placeholder=""
+                                                                v-model="post.subs[index].textarea"
+                                                        >
+                                                        </textarea>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="row image3">
-                                            <div class="column">
-                                                <div class="form-input">
-                                                    <div class="preview"></div>
-                                                    <label>
-                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                             alt="..."/>
-                                                    </label>
-                                                    <input type="file" accept="image/*"
-                                                           onchange="showPreview(event);">
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <div class="form-input">
-                                                    <div class="preview"></div>
-                                                    <label>
-                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                             alt="..."/>
-                                                    </label>
-                                                    <input type="file" accept="image/*"
-                                                           onchange="showPreview(event);">
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <div class="form-input">
-                                                    <div class="preview"></div>
-                                                    <label>
-                                                        <img th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                             alt="..."/>
-                                                    </label>
-                                                    <input type="file" accept="image/*"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-1">
-                                                <i style="margin-top:1rem;"
-                                                   class="fa-solid fa-ellipsis-vertical"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                                <textarea style="width: 100%;" class="form-control textArea" type="text"
-                                                          placeholder=""></textarea>
-                                        </div>
                                     </div>
 
 
@@ -435,7 +467,7 @@
                 })
                 .then((post) => {
                     this.post = post
-
+                    console.log(this.post)
                 })
         },
         methods: {
@@ -499,6 +531,23 @@
 
                         this.$forceUpdate()
                     })
+            },
+
+            setImgFrame: function (event, index, fv_index) {
+                let data = new FormData()
+
+                data.append('file', event.target.files[0])
+
+                fetch('/upload', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.text()
+                    })
+                    .then((url) => {
+                        this.post.subs[index].imgframe[fv_index] = url
+
+                        this.$forceUpdate()
+                    })
+
             },
 
             clickImgBtnHandler: function (index) {
@@ -585,6 +634,14 @@
 
             },
 
+            saveOrd2OfSub: function (index, ord) {
+
+                this.post.subs[index].ord2 = ord
+
+                console.log(this.post.subs[index].ord2)
+            },
+
+
         },
 
         computed: {},
@@ -610,6 +667,31 @@
                 self.post.ord = ind
 
             });
+
+            $('.draggable-2').sortable({
+                handle: '.drag-handle-2',
+                axis: 'y',
+                scroll: true,
+
+            }).off('sortstop').on('sortstop', function (event, ui) {
+
+                let ord2 = []
+                $(this).children('.drag-el-2').each(function () {
+
+                    const id = $(this).data('id')
+
+                    ord2.push(parseInt(id))
+                })
+
+                let sub_index = $(this).data('index')
+
+                console.log("sub_index: ", sub_index)
+
+                console.log("ord2: ", ord2)
+
+                // self.saveOrd2OfSub(sub_index, ord2)
+
+            })
         }
 
     })

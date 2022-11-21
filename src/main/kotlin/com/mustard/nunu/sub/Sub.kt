@@ -35,4 +35,19 @@ class Sub() : Base() {
 
     @Column(name = "ord")
     open var ord: Int? = null
+
+    @ElementCollection
+    @CollectionTable(name = "sub_imgframe", joinColumns = [JoinColumn(name = "owner_id")])
+    @Column(name = "imgframe", length = 1000)
+    open var imgframe: MutableList<String> = mutableListOf("", "", "")
+
+
+    @Column(name = "textarea", length = 3000)
+    open var textarea: String? = null
+
+
+    @ElementCollection
+    @CollectionTable(name = "sub_ord2", joinColumns = [JoinColumn(name = "owner_id")])
+    @Column(name = "ord_2")
+    open var ord2: MutableList<Int> = mutableListOf()
 }
