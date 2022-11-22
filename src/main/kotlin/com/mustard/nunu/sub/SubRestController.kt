@@ -28,9 +28,9 @@ class SubRestController(
 
                 sub = Sub()
 
-                sub!!.heading=""
+                sub!!.heading = ""
 
-                sub!!.keywords.add("")
+                sub!!.addKeyword("")
             }
 
             ResponseEntity.ok().body(sub)

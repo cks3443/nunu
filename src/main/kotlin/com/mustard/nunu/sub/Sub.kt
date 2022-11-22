@@ -27,10 +27,10 @@ class Sub() : Base() {
     @Column(name = "heading", length = 1000)
     open var heading: String? = null
 
-    @ElementCollection
-    @CollectionTable(name = "sub_keywords", joinColumns = [JoinColumn(name = "owner_id")])
-    @Column(name = "keyword", length = 1000)
-    open var keywords: MutableSet<String> = mutableSetOf()
+//    @ElementCollection
+//    @CollectionTable(name = "sub_keywords", joinColumns = [JoinColumn(name = "owner_id")])
+//    @Column(name = "keyword", length = 1000)
+//    open var keywords: MutableSet<String> = mutableSetOf()
 
 
     @Column(name = "ord")
@@ -49,5 +49,24 @@ class Sub() : Base() {
     @ElementCollection
     @CollectionTable(name = "sub_ord2", joinColumns = [JoinColumn(name = "owner_id")])
     @Column(name = "ord_2")
-    open var ord2: MutableList<Int> = mutableListOf(0,1)
+    open var ord2: MutableList<Int> = mutableListOf(0, 1)
+
+    @Column(name = "keyword_storage", length = 5000)
+    open var keywordStorage: String? = null
+
+    fun addKeyword(v: String) {
+        keywords.add(v)
+
+        keywordStorage = keywords.joinToString("|")
+    }
+
+    @Transient
+    open var keywords: MutableList<String> = mutableListOf()
+        get() {
+            if (this.keywordStorage == null) {
+                return mutableListOf()
+            }
+
+            return keywordStorage!!.split("|").toMutableList()
+        }
 }

@@ -42,10 +42,11 @@
                                     <button type="button" class="btn btn-outline-primary">정중한</button>
                                     <button type="button" class="btn btn-outline-primary">진지한</button>
 
-                                    <a th:href="@{/block/edit(postid=${id})}"
-                                       type="button"
-                                       class="btn btn-outline-primary"
-                                       style="max-width: 100px;background-color:black; color:white; opacity:unset"
+                                    <a
+                                            v-on:click="clickBlockEditBtnHandler($event)"
+                                            type="button"
+                                            class="btn btn-outline-primary"
+                                            style="max-width: 100px;background-color:black; color:white; opacity:unset"
                                     >
                                         블록편집
                                     </a>
@@ -604,8 +605,6 @@
 
             splitFilesString: function (file_str) {
 
-                console.log(file_str)
-
                 const id_name = file_str.split(this.delimiter)
 
                 const ext = id_name[1].split(".")[1]
@@ -642,6 +641,12 @@
 
                 let data = new FormData()
 
+                this.post.subs.forEach((sub) => {
+
+                    sub.keywordStorage = sub.keywords.join('|')
+
+                })
+
                 data.append('post_str', JSON.stringify(this.post))
 
                 fetch('/api/v1/posts/save', {method: 'POST', body: data})
@@ -658,9 +663,19 @@
 
                 this.post.subs[index].ord2 = ord
 
-                console.log(this.post.subs[index].ord2)
             },
 
+            clickBlockEditBtnHandler: function (event) {
+                event.preventDefault()
+
+                if (this.post.id != null) {
+
+                    window.location.replace(`/block/edit?postid=${this.post.id}`)
+                } else {
+                    alert("먼저 저장해주세요")
+                }
+
+            }
 
         },
 
