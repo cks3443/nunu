@@ -49,5 +49,5 @@ class Sub() : Base() {
     @ElementCollection
     @CollectionTable(name = "sub_ord2", joinColumns = [JoinColumn(name = "owner_id")])
     @Column(name = "ord_2")
-    open var ord2: MutableList<Int> = mutableListOf()
+    open var ord2: MutableList<Int> = mutableListOf(0,1)
 }

@@ -28,6 +28,8 @@ class SubRestController(
 
                 sub = Sub()
 
+                sub!!.heading=""
+
                 sub!!.keywords.add("")
             }
 

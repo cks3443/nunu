@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title></title>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/newStyle.css}" rel="stylesheet"/>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+
+    <style th:replace="~{fragments/common_parts :: styleFragment}"></style>
+</head>
+<body id="page-top">
+<div class="container-fluid" id="app">
+    <div class="row">
+
+        <div th:replace="~{fragments/common_parts :: menubar}"></div>
+
+        <div class="col-10">
+            <div class="row">
+                <!-- Navigation-->
+
+                <nav th:replace="~{fragments/common_parts :: navbar}"></nav>
+
+                <section class="page-section">
+                    <div class="container">
+                        <!-- Section Form-->
+                        <div class="row justify-content-center">
+                            <div class="fontStyle">
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                    <button type="button" class="btn btn-outline-primary">가벼운</button>
+                                    <button type="button" class="btn btn-outline-primary">산뜻한</button>
+                                    <button type="button" class="btn btn-outline-primary">반듯한</button>
+                                    <button type="button" class="btn btn-outline-primary">정중한</button>
+                                    <button type="button" class="btn btn-outline-primary">진지한</button>
+
+                                    <a th:href="@{/block/edit(postid=${id})}"
+                                       type="button"
+                                       class="btn btn-outline-primary"
+                                       style="max-width: 100px;background-color:black; color:white; opacity:unset"
+                                    >
+                                        블록편집
+                                    </a>
+                                </div>
+                                <hr/>
+                            </div>
+                            <div>
+                                <div class="btn-group alignType" role="group">
+                                    <button type="button" class="btn btn-outline-primary"><i
+                                            class="fa-solid fa-align-left"></i></button>
+                                    <button type="button" class="btn btn-outline-primary"><i
+                                            class="fa-solid fa-align-center"></i></button>
+                                    <button type="button" class="btn btn-outline-primary"><i
+                                            class="fa-solid fa-align-right"></i></button>
+                                    <button type="button" class="btn btn-outline-primary"><i
+                                            class="fa-solid fa-align-justify"></i></button>
+                                    <a href="mobile_view.html" style="border: 0 !important;" type="button"
+                                       class="btn btn-outline-primary"><i class="fa-solid fa-mobile-screen"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-xl-7">
+                                <form v-if="post && post.subs"
+
+                                >
+                                    <!-- Memo input-->
+                                    <div
+                                            style="padding: 0px;margin: 0px;"
+                                    >
+
+                                        <div class="form-floating mb-3" style="margin-bottom: unset !important;">
+                                            <input style="border: unset; font-size: 1.5rem; width: 100%; text-align: center;"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Enter your title..."
+                                                   v-model="post.title"
+                                            />
+                                            <label>Title</label>
+                                        </div>
+
+                                        <!-- SubHeading1 input-->
+                                        <draggable v-model="post.ord" draggable=".drag-el"
+                                                   class="repeatDiv "
+                                                   :options="{handle:'.drag-handle',}"
+                                        >
+                                            <div v-for="(index, index_label) in post.ord"
+
+                                                 class="drag-el"
+                                                 :key="index"
+
+                                                 :data-ord="index"
+                                            >
+                                                <span
+                                                        class="drag-handle"
+                                                        style="float: right; color:#ced4da; font-size: 25px;"
+                                                >...</span>
+                                                <div class="form-floating mb-3  input-group forminput">
+                                                    <input
+                                                            class="form-control subHead"
+                                                            type="text"
+                                                            placeholder="Your SubHeading1"
+                                                            style="padding: 10px;"
+
+                                                            v-if="post.subs[index]"
+
+                                                            v-model="post.subs[index].heading"
+                                                    />
+                                                    <label>{{'SubHeading ' + (index_label + 1)}}</label>
+                                                </div>
+                                                <div
+                                                        class="form-floating mb-3  input-group forminput repeatKeyword"
+
+                                                        v-if="post.subs[index].keywords != undefined"
+
+                                                        v-for="(keyword, k) in post.subs[index].keywords"
+                                                >
+                                                    <input
+                                                            class="form-control addstyle"
+                                                            type="text"
+                                                            placeholder="Keyword"
+                                                            style="padding: 10px;"
+
+                                                            v-if="post.subs[index]"
+
+                                                            v-model="post.subs[index].keywords[k]"
+                                                    />
+                                                    <label>Keyword</label>
+                                                    <button
+                                                            class="btn btn-outline-secondary"
+                                                            type="button"
+                                                            v-on:click="setShowControlPanelValue(index)"
+                                                    >
+                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div
+                                                        class="btn-group "
+                                                        role="group"
+                                                        aria-label="Basic checkbox toggle button group"
+
+                                                        v-if="post.subs[index].showControlPanel"
+                                                >
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-outline-primary"
+                                                            style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="addSub(index)"
+                                                    >
+                                                        <i class="fa-solid fa-equals"></i>
+                                                    </button>
+
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-outline-primary"
+                                                            style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="addKeyword(index)"
+                                                    >
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-outline-primary"
+                                                            style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="addImage(index)"
+                                                    >
+                                                        <i class="fa-regular fa-images"></i>
+                                                    </button>
+
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-outline-primary"
+                                                            style="background-color: #FDFAF5; color: #CACACA;"
+
+                                                            v-on:click="clickImgBtnHandler(index)"
+                                                    >
+                                                        <i class="fa-regular fa-image"></i>
+                                                    </button>
+
+                                                </div>
+
+
+                                                <div
+                                                        v-if="post.subs[index].showControlPanel && post.subs[index].images.length != 0"
+                                                >
+                                                    <div class="row" style="padding: 0 30px;">
+                                                        <div
+                                                                class="column"
+
+                                                                v-for="(img_id, img_index) in post.subs[index].images"
+                                                        >
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                <label
+                                                                        v-bind:for="'id_' + index + '_' + img_index"
+                                                                >
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] == ''"
+                                                                            src="/assets/img/image_frame.svg"
+                                                                    />
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] != ''"
+                                                                            v-bind:src="'/files/' + img_id"
+                                                                    />
+                                                                </label>
+                                                                <input
+                                                                        @change="uploadImageEventHandler(index, img_index, $event)"
+                                                                        v-bind:id="'id_' + index + '_' + img_index"
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div
+                                                        style="margin: 0px;padding: 0px;"
+
+                                                        v-if="post.subs[index].showControlPanel && post.subs[index].showFileUploadPan"
+                                                >
+                                                    <div class="upload__img-wrap"></div>
+                                                    <!-- MULTIPLE IMAGE UPLOAD-->
+                                                    <input
+                                                            type="file"
+                                                            class="imageForm"
+                                                            v-bind:id="'my-form-' + index"
+                                                            multiple
+                                                            style="display: none;"
+
+                                                            accept="image/*, .pdf, .psd"
+
+                                                            @change="changeFileUploadHandler($event, index)"
+                                                    />
+                                                    <label
+                                                            v-bind:for="'my-form-' + index"
+                                                            style="display: flex; flex-direction: column;align-items: center;"
+                                                            class="multiple-uploader"
+                                                            id="multiple-uploader"
+
+                                                    >
+                                                        <div
+                                                                class="mup-msg"
+
+                                                                v-if="post.subs[index].files.length == 0"
+                                                        >
+                                                            <span class="mup-main-msg">+ Files</span>
+                                                            <span class="mup-msg" id="max-upload-number"></span>
+                                                            <span class="mup-msg">(image, pdf, psd)</span>
+                                                        </div>
+
+                                                        <div
+                                                                class="image-container"
+                                                                style="
+                                                                    margin-block-start: 10px;
+                                                                    margin-block-end: 10px;
+                                                                "
+                                                                v-for="(file_str, file_index) in post.subs[index].files"
+
+                                                                v-if="containPdfPsd(file_str) == false"
+                                                        >
+                                                            <div style="
+                                                                position: absolute;
+                                                                z-index: 10;
+                                                                background-color: lightyellow;
+                                                                border-radius: 3px;
+                                                                padding: 2px;
+                                                                color: red;
+                                                            "
+                                                                 v-on:click="removeFileString($event, index, file_str)"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                     height="22" fill="currentColor" viewBox="0 0 16 16"
+                                                                     class="bi bi-x-circle">
+                                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <img
+                                                                    v-bind:src="containPdfPsd(file_str) == false ? '/files/' + id_name_ext(file_str)[0] : ''"
+                                                                    class="image-preview"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                                v-else
+
+                                                                style="
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    background-color: rgb(247,247,247);
+                                                                    border-radius: 3px;
+                                                                    padding: 3px;
+                                                                    margin-block-end: 10px;
+                                                                    margin-block-start: 10px;
+                                                                "
+                                                        >
+                                                            <span
+                                                                    style="
+                                                                        background-color: lightyellow;
+                                                                        color: red;
+                                                                        border-radius: 3px;
+                                                                        margin-right: 5px;
+                                                                        padding: 2px;"
+
+                                                                    v-on:click="removeFileString($event, index, file_str)"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                     height="22" fill="currentColor" viewBox="0 0 16 16"
+                                                                     class="bi bi-x-circle">
+                                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                                                                </svg>
+                                                            </span>
+                                                            {{id_name_ext(file_str)[1]}}
+                                                        </div>
+
+                                                    </label>
+                                                </div>
+                                                <draggable
+
+                                                        v-model="post.subs[index].ord2"
+
+                                                        draggable=".drag-el-2"
+
+                                                        :options="{handle:'.drag-handle-2',}"
+
+                                                        style="margin:0px;padding: 0px;"
+
+                                                        class="draggable-2"
+
+                                                        v-bind:data-index="index"
+                                                >
+
+                                                    <div
+                                                            class="row image3 drag-el-2"
+
+                                                            data-id="0"
+
+                                                            v-for="ord in post.subs[index].ord2"
+
+                                                            v-if="ord == 0"
+                                                    >
+                                                        <div
+                                                                class="column"
+
+                                                                v-for="(fv, fv_index) in post.subs[index].imgframe"
+                                                        >
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+
+                                                                <label
+                                                                        v-bind:for="`fv-${index}-${fv_index}`"
+                                                                >
+                                                                    <img
+                                                                            v-if="fv == ''"
+                                                                            th:src="@{/assets/img/Image_frame_pc.svg}"
+                                                                            alt="..."
+                                                                    />
+                                                                    <img
+                                                                            v-else
+                                                                            v-bind:src="'/files/' + fv"
+                                                                            alt="..."
+                                                                    />
+                                                                </label>
+
+                                                                <input
+                                                                        v-bind:id="`fv-${index}-${fv_index}`"
+                                                                        type="file"
+                                                                        accept="image/*"
+
+                                                                        @change="setImgFrame($event, index, fv_index)"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-1 drag-handle-2">
+                                                            <i style="margin-top:1rem;"
+                                                               class="fa-solid fa-ellipsis-vertical"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                            class="drag-el-2"
+
+                                                            data-id="1"
+
+                                                            v-else
+                                                    >
+                                                        <textarea
+                                                                style="width: 100%;"
+                                                                class="form-control textArea"
+                                                                type="text"
+                                                                placeholder=""
+                                                                v-model="post.subs[index].textarea"
+                                                        >
+                                                        </textarea>
+                                                    </div>
+
+                                                </draggable>
+                                            </div>
+                                        </draggable>
+
+                                    </div>
+
+
+                                    <div class="row btnGroup">
+                                        <div class="column colDiv">
+                                            <a href="#" class="btn btn-primary btn-xl hideBtn"
+                                               type="submit">
+                                                <img th:src="@{/assets/img/hide.svg}"
+                                                     alt="..."/> &nbsp; Sketch All
+                                            </a></div>
+                                        <div class="column colDiv"><a href="#" class="btn btn-primary btn-xl hideBtn"
+                                                                      type="submit">
+                                            <img th:src="@{/assets/img/hide.svg}"
+                                                 alt="..."/>&nbsp; Keyword</a>
+                                        </div>
+                                    </div>
+                                    <div
+                                            class="saveBtn"
+
+                                            style="
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                margin-top: 15px;
+                                            "
+                                    >
+                                        <div style=" width: 100%;"
+                                             class="btn btn-primary btn-xl"
+
+                                             v-on:click="savePost($event, 'CONTINUE')"
+                                        >
+                                            save
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.7.3/vue.min.js"></script>
+<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+<script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
+
+<script>
+
+    new Vue({
+        el: "#app",
+        data: {
+            id: [[${id}]],
+            post: null,
+            delimiter: '|',
+            CONTINUE: 'CONTINUE',
+            DONE: 'DONE',
+            DELETE: 'DELETE',
+        },
+        beforeMount: function () {
+            let urlroot = '/api/v1/posts'
+
+            if (this.id != -1) {
+                urlroot += `/${this.id}`
+            }
+
+            fetch(urlroot, {method: 'POST'})
+                .then((r) => {
+                    if (r.ok) return r.json()
+                })
+                .then((post) => {
+                    this.post = post
+                    console.log(this.post)
+                })
+        },
+        methods: {
+
+            setOrderToSubs: function () {
+                this.post.subs.forEach((sub, i) => {
+
+                    console.log(sub)
+                })
+
+            },
+            sortSubs: function () {
+                this.post.subs = _.sortBy(this.post.subs, (s) => {
+                    return s.ord
+                })
+
+            },
+            setShowControlPanelValue: function (index) {
+
+                this.post.subs[index].showControlPanel =
+                    !(this.post.subs[index].showControlPanel)
+            },
+            addSub: function (index) {
+
+                let urlroot = '/api/v1/subs'
+
+                fetch(urlroot, {method: 'POST'})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((sub) => {
+
+                        this.post.subs.push(sub)
+                        let add_id = this.post.subs.length - 1
+                        this.post.ord.splice(index + 1, 0, add_id)
+                    })
+
+            },
+
+            addKeyword: function (pindex) {
+                this.post.subs[pindex].keywords.push("")
+            },
+
+            addImage: function (index) {
+                if (this.post.subs[index].images.length < 3) {
+
+                    this.post.subs[index].images.push("")
+                }
+            },
+            uploadImageEventHandler: function (index, img_index, event) {
+                let data = new FormData()
+
+                data.append('file', event.target.files[0])
+
+                fetch('/upload', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.text()
+                    })
+                    .then((url) => {
+                        this.post.subs[index].images[img_index] = url
+
+                        this.$forceUpdate()
+                    })
+            },
+
+            setImgFrame: function (event, index, fv_index) {
+                let data = new FormData()
+
+                data.append('file', event.target.files[0])
+
+                fetch('/upload', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.text()
+                    })
+                    .then((url) => {
+                        this.post.subs[index].imgframe[fv_index] = url
+
+                        this.$forceUpdate()
+                    })
+
+            },
+
+            clickImgBtnHandler: function (index) {
+                this.post.subs[index].showFileUploadPan = !(this.post.subs[index].showFileUploadPan)
+
+                this.$forceUpdate()
+            },
+
+            changeFileUploadHandler: function (event, index) {
+
+                let data = new FormData()
+
+                if (event.target.files.length == 0) return
+
+                [0, 1, 2, 3, 4].forEach((v) => {
+
+                    if (v <= event.target.files.length - 1) {
+
+                        data.append('files', event.target.files[v])
+                    }
+                })
+
+
+                fetch('/muploads', {method: 'POST', body: data})
+                    .then(r => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((d) => {
+
+                        this.post.subs[index].files = d
+                    })
+
+            },
+
+            splitFilesString: function (file_str) {
+
+                console.log(file_str)
+
+                const id_name = file_str.split(this.delimiter)
+
+                const ext = id_name[1].split(".")[1]
+
+                return [...id_name, ext]
+            },
+            containPdfPsd: function (file_string) {
+                const id_name_ext = this.splitFilesString(file_string)
+
+                return ["pdf", "psd"].includes(id_name_ext[2])
+            },
+
+            id_name_ext: function (file_string) {
+
+                const _id_name_ext = this.splitFilesString(file_string)
+
+                return _id_name_ext
+            },
+
+            removeFileString: function (event, index, file_str) {
+                event.preventDefault()
+
+                let files = this.post.subs[index].files
+
+                this.post.subs[index].files = files.filter((file_string) => {
+                    return file_string != file_str
+                })
+            },
+
+            savePost: function (event, state) {
+                event.preventDefault()
+
+                this.post.state = state
+
+                let data = new FormData()
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+                    })
+
+            },
+
+            saveOrd2OfSub: function (index, ord) {
+
+                this.post.subs[index].ord2 = ord
+
+                console.log(this.post.subs[index].ord2)
+            },
+
+
+        },
+
+        computed: {},
+
+        updated: function () {
+
+        }
+
+    })
+
+</script>
+</body>
+</html>

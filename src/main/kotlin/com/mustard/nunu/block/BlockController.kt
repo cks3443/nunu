@@ -1,4 +1,4 @@
-package com.mustard.nunu.post
+package com.mustard.nunu.block
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -6,27 +6,22 @@ import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-@RequestMapping("/posts")
-class PostController {
+@RequestMapping("/block")
+class BlockController() {
 
-    val CREATE_PAGE = "create"
+    val BLOCK_EDIT_PAGE = "block_edit"
 
-    val CREATE_PAGE_2 = "create2"
-
-    @GetMapping(value = ["/edit", "/edit/{id}"])
-    fun getPosts(
-        @PathVariable id: Long?,
+    @GetMapping("/edit")
+    fun getBlockEdit(
+        @RequestParam postid: Long,
         model: Model,
     ): String {
 
-        var pid = -1L
+        model["postid"] = postid
 
-        id?.let { pid = it }
-
-        model["id"] = pid
-
-        return CREATE_PAGE_2
+        return BLOCK_EDIT_PAGE
     }
 }

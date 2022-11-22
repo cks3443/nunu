@@ -36,7 +36,7 @@ class PostRestController(
                 post = Post()
                 post!!.title = ""
                 val sub = Sub()
-
+                sub.heading = ""
                 sub.keywords.add("")
 
                 post!!.subs.add(sub)
