@@ -59,10 +59,6 @@ class PostRestController(
         return try {
             val post = gson.fromJson(post_str, Post::class.java)
 
-            post.subs.forEach {
-                println(it.keywordStorage)
-            }
-
             postes.save(post)
 
             ResponseEntity.ok().body(post)

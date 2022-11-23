@@ -82,10 +82,20 @@
             background-color: black;
             border-radius: 30px !important;
         }
+
+        .b-color-yellow {
+            background-color: #FFF06A;
+        }
+
+        .b-color-white {
+            background-color: white;
+            border-radius: 0.5rem;
+            border: solid 1px;
+        }
     </style>
 </head>
 <body id="page-top">
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
 
         <div th:replace="~{fragments/common_parts :: menubar}"></div>
@@ -100,58 +110,49 @@
                         <!-- Section Form-->
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-xl-7">
-                                <div class="trash">
+                                <div class="trash"
+                                     v-on:click="clickDeleteBtnHandler($event)"
+                                >
                                     <a href="#" style="float:right"><i class="fa-solid fa-trash"></i></a>
                                 </div>
                                 <hr style="width: 100%;"/>
-                                <form>
-                                    <div class="form-floating mb-3 forminput ">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
+                                <draggable
+                                        v-if="post"
+                                        v-model="post.ord"
+                                        draggable=".drag-el"
+                                        :options="{handle:'.drag-handle',}"
+                                >
+                                    <div
+                                            class="form-floating mb-3 forminput drag-el"
+
+                                            v-for="order in this.post.ord"
+
+                                            style="
+                                                display: flex;
+                                                flex-direction: row;
+                                                align-items: center;
+                                                justify-content: center;
+                                            "
+                                    >
+                                        <i class="fa-solid fa-ellipsis-vertical drag-handle" style="height: 20px;
                                                 color: #656565;
                                                 padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
+                                        <div
+                                                class="subHead"
+                                                style="padding: 10px; display: flex;align-items: center;"
+                                                v-bind:class="{'b-color-yellow': !div_clicked.includes(order),'b-color-white': div_clicked.includes(order)}"
+                                                v-on:click="addOrdToSelected(order)"
+                                        >
+                                            {{post.subs[order].heading}}
+                                        </div>
                                     </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <!-- <input type="checkbox" class="checkbox-round" /> -->
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                 color: #656565;
-                                                 padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
+                                    <div class="saveBtn"
+                                         v-on:click="savePost($event)"
+                                    >
+                                        <a style="float:right; width: 50%; margin-top: 40px;"
+                                           class="btn btn-primary btn-xl">save</a>
                                     </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                color: #656565;
-                                                padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
-                                    </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                color: #656565;
-                                                padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
-                                    </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                color: #656565;
-                                                padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
-                                    </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                color: #656565;
-                                                padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
-                                    </div>
-                                    <div class="form-floating mb-3 forminput">
-                                        <i class="fa-solid fa-ellipsis-vertical" style="height: 20px;
-                                                color: #656565;
-                                                padding-right: 10px;"></i>
-                                        <input class="subHead" type="text"/>
-                                    </div>
-                                    <div class="saveBtn"><a href="main.html"
-                                                            style=" float:right; width: 50%; margin-top: 40px;"
-                                                            class="btn btn-primary btn-xl" type="submit">save</a></div>
-                                </form>
+                                </draggable>
                             </div>
                         </div>
                     </div>
@@ -160,5 +161,82 @@
         </div>
     </div>
 </div>
+
+<th:block th:replace="~{fragments/common_parts :: scription}"></th:block>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            id: [[${postid}]],
+            post: null,
+            delimiter: '|',
+            CONTINUE: 'CONTINUE',
+            DONE: 'DONE',
+            DELETE: 'DELETE',
+            div_clicked: [],
+        },
+        beforeMount: function () {
+            let urlroot = `/api/v1/posts/${this.id}`
+
+            if (this.id == null) return
+
+            fetch(urlroot, {method: 'POST'})
+                .then((r) => {
+                    if (r.ok) return r.json()
+                })
+                .then((post) => {
+                    this.post = post
+                })
+        },
+        methods: {
+            addOrdToSelected: function (order) {
+
+                if (this.div_clicked.includes(order)) {
+
+                    this.div_clicked = this.div_clicked.filter((ord) => {
+                        return ord != order
+                    })
+                } else {
+
+                    this.div_clicked.push(order)
+                }
+            },
+            clickDeleteBtnHandler: function (event) {
+                event.preventDefault()
+
+                this.post.ord = this.post.ord.filter((id) => {
+                    return !(this.div_clicked.includes(id))
+                })
+
+                this.div_clicked = []
+            },
+            savePost: function (event) {
+                event.preventDefault()
+
+                let data = new FormData()
+
+                this.post.subs.forEach((sub) => {
+
+                    sub.keywordStorage = sub.keywords.join('|')
+
+                })
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+                    })
+
+            },
+
+        }
+    })
+</script>
+
 </body>
 </html>
