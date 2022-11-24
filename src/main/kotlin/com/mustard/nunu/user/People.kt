@@ -12,13 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.Date
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.validation.constraints.NotBlank
 
 @Entity
-open class User(
+open class People(
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

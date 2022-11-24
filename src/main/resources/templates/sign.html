@@ -58,66 +58,38 @@
     <div class="container py-5 h-100">
         <div class="row d-flex align-items-center justify-content-center h-100">
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" style="width:90%">
-                <form th:action="@{/login}" method="post">
+                <form th:action="@{/sign}" method="post" th:object="${signdto}">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input
-                                type="email"
-                                id="email"
-                                style="background-color: #FFFCF8 !important; border: 0;"
-                                class="form-control form-control-lg"
-                                placeholder="이메일을 입력해주세요"
-                                name="email"
+                        <input type="email"
+                               style="background-color: #FFFCF8 !important; border: solid 1px; padding: 8px;"
+                               class="form-control form-control-lg"
+                               placeholder="이메일"
+                               th:field="*{email}"
                         />
                     </div>
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                style="background-color: #FFFCF8 !important; border: 0;"
-                                class="form-control form-control-lg" placeholder="비밀번호"
+                        <input type="password"
+                               style="background-color: #FFFCF8 !important; border: solid 1px; padding: 8px;"
+                               class="form-control form-control-lg"
+                               placeholder="비밀번호 1"
+                               th:field="*{passwd1}"
+                        />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="password"
+                               style="background-color: #FFFCF8 !important; border: solid 1px; padding: 8px;"
+                               class="form-control form-control-lg"
+                               placeholder="비밀번호 2"
+                               th:field="*{passwd2}"
                         />
                     </div>
                     <input
-                            class="btn btn-primary btn-lg btn-block login"
-                            style="background-color: black"
+                            class="btn btn-primary btn-lg btn-block login" style="background-color: black"
                             th:type="submit"
-                            th:value="로그인"
+                            th:value="가입"
                     />
-
-
-                    <div class="d-flex justify-content-around align-items-center"
-                         style="float: right; font-size:12px !important">
-                        <a th:href="@{/sign}" style="text-decoration: unset; color: black; float: right;">이메일로 회원가입</a>
-                    </div>
-                    <br/>
-                    <!-- Submit button -->
-                    <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                    </div>
-
-                    <a class="btn btn-primary btn-lg btn-block login" style="background-color: #ffeb00" href="#!"
-                       role="button">
-                        <i class="fa-regular fa-comment me-2"></i>카카오톡 로그인
-                    </a>
-
-                    <a class="btn btn-primary btn-lg btn-block login"
-                       style="background-color: #03c75a" href="#!"
-                       role="button"
-                       th:if="false"
-                    >
-                        <i class="fa-solid fa-n"></i> 네이버 로그인
-                    </a>
-
-                    <a class="btn btn-primary btn-lg btn-block login"
-                       style="background-color: #55acee"
-                       href="#!"
-                       th:if="false"
-                    >
-                        <i class="fa-brands fa-google me-2"></i>국글 로그인
-                    </a>
                 </form>
             </div>
         </div>

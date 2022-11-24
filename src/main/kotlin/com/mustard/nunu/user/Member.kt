@@ -19,7 +19,7 @@ class Member(
     credentialsNonExpired: Boolean,
     created: Date,
     modified: Date,
-) : User(
+) : People(
 
     id,
     email,

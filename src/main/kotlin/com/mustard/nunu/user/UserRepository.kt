@@ -1,10 +1,15 @@
 package com.mustard.nunu.user
 
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.Repository
+import org.springframework.data.repository.query.Param
 
-@Repository
-interface UserRepository : CrudRepository<User, String> {
+interface UserRepository : Repository<People, String> {
 
-    fun findOneByEmail(email: String): User?
+    @Query("SELECT it FROM People it WHERE it.email = :email")
+    fun findByEmail(@Param("email") email: String): People?
+
+    fun save(people: People): People
+
+    fun deleteById(id: String)
 }

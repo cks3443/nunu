@@ -1,12 +1,9 @@
 package com.mustard.nunu.user
 
-import com.fasterxml.jackson.databind.RuntimeJsonMappingException
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
-import java.util.StringJoiner
 
 @Service
 class UserService(
@@ -15,12 +12,12 @@ class UserService(
 
     val encoder = BCryptPasswordEncoder(11)
 
-    override fun loadUserByUsername(email: String?): User? {
+    override fun loadUserByUsername(email: String?): People? {
 
-        return users.findOneByEmail(email!!) ?: throw RuntimeException("User not found: $email")
+        return users.findByEmail(email!!) ?: throw RuntimeException("User not found: $email")
     }
 
-    fun saveMember(user: UserDTO): User {
+    fun saveMember(user: UserDTO): People {
 
         val member = Member()
 
