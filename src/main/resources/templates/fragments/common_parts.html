@@ -162,6 +162,29 @@
     </div>
 </nav>
 
+<div class="viewbtn" style="text-align: center; padding-bottom:20px" th:fragment="viewbtn">
+    <a th:href="@{/main(block=1)}" style="border: 0 !important; opacity: unset;" type="button"
+       class="btn btn-outline-primary"
+    >
+        <img class="" th:src="@{/assets/img/line.svg}" alt="..."/>
+    </a>
+    <a th:href="@{/main(block=2)}" style="border: 0 !important;  opacity: unset" type="button"
+       class="btn btn-outline-primary"
+    >
+        <img class="" th:src="@{/assets/img/block.svg}" alt="..."/>
+    </a>
+    <a th:href="@{/main(block=3)}"
+       style="border: 0 !important;  opacity: unset" type="button"
+       class="btn btn-outline-primary"
+    >
+        <img class="" th:src="@{/assets/img/list.svg}" alt="..."/>
+    </a>
+</div>
+
+<div class="newButton" th:fragment="newButton">
+    <a th:href="@{/posts/edit}"><img class="" th:src="@{/assets/img/new.svg}" alt="..."/></a>
+</div>
+
 <th:block th:fragment="scription">
     <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.7.3/vue.min.js"></script>
     <!-- CDNJS :: Sortable (https://cdnjs.com/) -->
