@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableWebSecurity
 class WebSecurityConfiguration(
     private val service: UserService,
-
-    ) : WebSecurityConfigurerAdapter() {
+) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
 
@@ -29,8 +28,13 @@ class WebSecurityConfiguration(
                 "/sign",
                 "/login",
                 "/login/**"
-            )?.permitAll()
-            ?.antMatchers("/sign", "/sign/**")?.permitAll()
+            )
+            ?.permitAll()
+            ?.antMatchers(
+                "/sign",
+                "/sign/**"
+            )
+            ?.permitAll()
             ?.anyRequest()?.authenticated()
             ?.and()
             ?.formLogin()
@@ -40,8 +44,7 @@ class WebSecurityConfiguration(
             ?.and()
             ?.logout()
             ?.logoutUrl("/logout")
-            ?.logoutSuccessUrl("/")
-
+            ?.logoutSuccessUrl("/login")
     }
 
     @Bean
