@@ -48,4 +48,19 @@ class Member(
         Date(),
         Date()
     )
+
+    constructor(name: String, email: String, roles: String) : this(
+        "",
+        email,
+        "",
+        name,
+        "",
+        roles,
+        true,
+        true,
+        true,
+        true,
+        Date(),
+        Date()
+    )
 }
