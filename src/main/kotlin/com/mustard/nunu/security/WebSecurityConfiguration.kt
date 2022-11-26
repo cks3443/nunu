@@ -1,5 +1,6 @@
 package com.mustard.nunu.security
 
+import com.mustard.nunu.auth.CustomOAuth2UserService
 import com.mustard.nunu.user.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableWebSecurity
 class WebSecurityConfiguration(
     private val service: UserService,
-) : WebSecurityConfigurerAdapter() {
+    private val customOAuth2UserService: CustomOAuth2UserService,
+
+    ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
 
@@ -44,7 +47,12 @@ class WebSecurityConfiguration(
             ?.and()
             ?.logout()
             ?.logoutUrl("/logout")
-            ?.logoutSuccessUrl("/login")
+            ?.logoutSuccessUrl("/")
+            ?.and()
+            ?.oauth2Login()
+            ?.loginPage("/login")
+            ?.userInfoEndpoint()
+            ?.userService(customOAuth2UserService)
     }
 
     @Bean

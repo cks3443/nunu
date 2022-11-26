@@ -1,0 +1,5 @@
+ALTER TABLE post
+    ADD people_id VARCHAR(36);
+
+ALTER TABLE post
+    ADD CONSTRAINT FK_POST_ON_PEOPLE FOREIGN KEY (people_id) REFERENCES people (id);
