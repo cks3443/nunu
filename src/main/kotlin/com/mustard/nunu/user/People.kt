@@ -1,6 +1,7 @@
 package com.mustard.nunu.user
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.mustard.nunu.base.Base
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
@@ -9,7 +10,9 @@ import org.jetbrains.annotations.NotNull
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.Date
+import org.springframework.security.oauth2.core.user.OAuth2User
+import java.io.Serializable
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -49,7 +52,7 @@ open class People(
     open var modified: Date = Date(),
 
 
-    ) : UserDetails {
+    ) : UserDetails, OAuth2User, Serializable {
 
     constructor() : this(
         "",
@@ -90,4 +93,10 @@ open class People(
 
     override fun isAccountNonLocked() = accountNonLocked
 
+    //OAuth2
+    override fun getAttributes(): Map<String?, Any?>? {
+        return attributes
+    }
+
+    override fun getName(): String = email
 }

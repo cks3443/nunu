@@ -60,29 +60,26 @@ class CustomOAuth2UserService(
             }
         }
 
+        var user: Member? = null
+
         email?.let {
-
-            var user = members.findByEmail(it)
-
-            when (user) {
-                null -> {
-
-                    user = Member(name!!, email, "MEMBER")
-                }
-
-                else -> {
-                    user?.firstName = name!!
-                }
-            }
-
-            members.save(user!!)
+            user = members.findByEmail(it) as Member?
         }
 
+        when (user) {
+            null -> {
 
-        return DefaultOAuth2User(
-            Collections.singleton(SimpleGrantedAuthority("MEMBER")),
-            attributes,
-            userNameAttributeName
-        )
+                user = Member(name!!, email!!, "MEMBER")
+            }
+
+            else -> {
+                user?.firstName = name!!
+            }
+        }
+
+        members.save(user!!)
+
+        return user!!
+
     }
 }

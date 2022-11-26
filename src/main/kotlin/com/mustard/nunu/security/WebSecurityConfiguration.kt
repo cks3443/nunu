@@ -48,7 +48,6 @@ class WebSecurityConfiguration(
             ?.loginPage("/login")
             ?.userInfoEndpoint()
             ?.userService(customOAuth2UserService)
-
     }
 
     @Bean

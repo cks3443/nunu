@@ -2,8 +2,10 @@ package com.mustard.nunu.post
 
 import com.google.gson.Gson
 import com.mustard.nunu.sub.Sub
+import com.mustard.nunu.user.People
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -44,6 +46,7 @@ class PostRestController(
             }
 
             ResponseEntity.ok().body(post)
+
         } catch (e: Exception) {
             e.printStackTrace()
 
@@ -54,10 +57,13 @@ class PostRestController(
     @PostMapping("/save")
     fun savePost(
         @RequestParam post_str: String,
+        @AuthenticationPrincipal user: People,
     ): ResponseEntity<Post?> {
 
         return try {
             val post = gson.fromJson(post_str, Post::class.java)
+
+            post.people = user
 
             postes.save(post)
 

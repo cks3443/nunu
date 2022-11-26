@@ -481,6 +481,8 @@
 
             fetch(urlroot, {method: 'POST'})
                 .then((r) => {
+
+                    console.log(r)
                     if (r.ok) return r.json()
                 })
                 .then((post) => {
