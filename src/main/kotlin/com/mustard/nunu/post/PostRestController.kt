@@ -74,4 +74,21 @@ class PostRestController(
             ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null)
         }
     }
+
+    @PostMapping("/all")
+    fun getAllPosts(
+        @AuthenticationPrincipal people: People,
+    ): ResponseEntity<MutableList<Post>> {
+
+        return try {
+
+            val posts_all = postService.getAllMyPosts(people)
+            ResponseEntity.ok().body(posts_all)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mutableListOf())
+        }
+    }
 }

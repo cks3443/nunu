@@ -55,10 +55,43 @@
     </style>
 </head>
 <body id="page-top">
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
 
-        <div th:replace="~{fragments/common_parts :: menubar}"></div>
+        <div class="col-2 side_bar" style="border-right: 1px solid #c5c5c5;" th:fragment="menubar">
+            <a th:href="@{/posts/edit}" class="btn btn-primary btn-lg btn-block login" role="button">
+                +
+                NEW</a>
+            <ul>
+                <div class="sideLi">
+                    <li><a th:href="@{#}"
+                           v-on:click="set_post_state($event,'CONTINUE')"
+                    >
+                        Continues
+                    </a></li>
+                    <div></div>
+                </div>
+                <div class="sideLi">
+                    <li><a th:href="@{#}"
+                           v-on:click="set_post_state($event,'DONE')"
+                    >
+                        Done
+                    </a></li>
+                    <div></div>
+                </div>
+                <div class="sideLi">
+                    <li><a th:href="@{#}"
+                           v-on:click="set_post_state($event,'DELETE')"
+                    >
+                        Delete
+                    </a></li>
+                    <div></div>
+                </div>
+            </ul>
+            <hr/>
+            <div class="column"><a th:href="@{#}" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a></div>
+            <div class="column"><a th:href="@{#}" class="btn btn-primary btn-xl sideBtn" type="submit">noti</a></div>
+        </div>
 
         <div class="col-10">
             <div class="row">
@@ -68,52 +101,251 @@
 
                 <section class="page-section" id="contact">
 
-                    <nav th:replace="~{fragments/common_parts :: viewbtn}"></nav>
+                    <div class="viewbtn" style="text-align: center; padding-bottom:20px" th:fragment="viewbtn">
+                        <a th:href="@{#}" style="border: 0 !important; opacity: unset;" type="button"
+                           class="btn btn-outline-primary"
 
-                    <div class="container">
+                           v-on:click="setViewNum($event, 1)"
+                        >
+                            <img class="" th:src="@{/assets/img/line.svg}" alt="..."/>
+                        </a>
+                        <a th:href="@{#}" style="border: 0 !important;  opacity: unset" type="button"
+                           class="btn btn-outline-primary"
+
+                           th:if="false"
+
+                           v-on:click="setViewNum($event, 2)"
+                        >
+                            <img class="" th:src="@{/assets/img/block.svg}" alt="..."/>
+                        </a>
+                        <a th:href="@{#}"
+                           style="border: 0 !important;  opacity: unset" type="button"
+                           class="btn btn-outline-primary"
+
+                           v-on:click="setViewNum($event, 3)"
+                        >
+                            <img class="" th:src="@{/assets/img/list.svg}" alt="..."/>
+                        </a>
+                    </div>
+
+                    <div class="container"
+                         v-if="view_num == 1"
+                    >
                         <!-- Section Form-->
                         <div>
                             <form class="formList">
-                                <div class="divTable">
+
+                                <div class="divTable"
+                                     v-for="(post,post_id) in posts"
+                                >
                                     <div class="divTableBody">
                                         <div class="divTableRow">
-                                            <div class="divTableCell firstRow"><a href="edit_mb.html"> 구미 멋집소개</a>
-                                                <span> <i class="fa-regular fa-circle"></i>
-                                                        </span>
-                                            </div>
+                                            <div class="divTableCell firstRow">
+                                                <a
+                                                        :href="'/posts/edit/' + post.id"
+                                                >
+                                                    {{post.title}}
+                                                </a>
+                                                <span
+                                                        v-on:click="clickDeleteBtnHandler(post_id)"
+                                                        v-if="post.delete_times == 0"
+                                                >
+                                                    <i class="fa-regular fa-circle">
+                                                    </i>
+                                                </span>
+                                                <span
+                                                        v-on:click="clickDeleteBtnHandler(post_id)"
+                                                        v-else
 
+                                                        style="color: red; width: 12px;height: 12px;border-radius: 50%;"
+                                                >
+                                                </span>
+
+                                            </div>
                                         </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell">SubHeading1</div>
+
+                                        <div
+                                                class="divTableRow"
+                                                v-for="order in post.ord"
+                                        >
+                                            <div class="divTableCell">{{post.subs[order].heading}}</div>
                                         </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell">SubHeading1</div>
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell">SubHeading1</div>
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell">SubHeading1</div>
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell">SubHeading1</div>
-                                        </div>
-                                        <div class="divTableRow ">
-                                            <div class="divTableCell lastRow">SubHeading1</div>
-                                        </div>
+
                                     </div>
                                 </div>
+
                             </form>
 
                             <div th:replace="~{fragments/common_parts :: newButton}"></div>
 
                         </div>
                     </div>
+
+                    <div class="container" v-if="view_num == 2"
+
+                         th:if="false"
+                    >
+                        <!-- Section Form-->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-xl-7">
+                                <form>
+                                    <div class="row">
+                                        <div class="column">
+                                            <div class="divTable">
+                                                <div class="divTableBody">
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell firstRow"><a href="edit.html"> 구미
+                                                            멋집소개</a>
+                                                            <span> <i class="fa-regular fa-circle"></i>
+                                                                    </span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell">SubHeading1</div>
+                                                    </div>
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell">SubHeading1</div>
+                                                    </div>
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell">SubHeading1</div>
+                                                    </div>
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell">SubHeading1</div>
+                                                    </div>
+                                                    <div class="divTableRow">
+                                                        <div class="divTableCell">SubHeading1</div>
+                                                    </div>
+                                                    <div class="divTableRow ">
+                                                        <div class="divTableCell lastRow">SubHeading1</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div th:replace="~{fragments/common_parts :: newButton}"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container"
+                         v-if="view_num == 3"
+                    >
+                        <!-- Section Form-->
+                        <div class="">
+                            <form class="formList">
+
+                                <div
+                                        class="divTable"
+
+                                        v-for="post in posts"
+                                >
+                                    <div class="divTableBody">
+                                        <div class="divTableRow">
+                                            <div class="divTableCell firstRow">
+                                                <a
+                                                        v-bind:href="'/posts/edit/' + post.id"
+                                                >
+                                                    {{post.title}}
+                                                </a>
+                                                <span>
+                                                    <i class="fa-regular fa-circle"></i>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <div th:replace="~{fragments/common_parts :: newButton}"></div>
+
+                        </div>
+                    </div>
+
+
                 </section>
             </div>
         </div>
     </div>
 </div>
-
 </body>
+
+<script th:src="@{/webjars/vue/dist/vue.js}"></script>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            view_num: 1,
+            posts: [],
+            post_state: '[[${state}]]' // 'DONE', 'DELETE'
+        },
+
+        methods: {
+
+            setViewNum: function (e, num) {
+                e.preventDefault()
+
+                this.view_num = num
+            },
+
+            set_posts: function () {
+                fetch('/api/v1/posts/all', {method: 'POST'})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((data) => {
+                        this.posts = data.filter((d) => {
+                            return d.state == this.post_state
+                        })
+                    })
+            },
+
+            set_post_state: function (e, state) {
+                this.post_state = state
+
+                this.set_posts()
+            },
+
+            clickDeleteBtnHandler: function (post_id) {
+
+                console.log('jlkjljljljljlkj')
+
+                console.log(this.posts[post_id].delete_times)
+
+                this.posts[post_id].delete_times += 1
+
+                if (this.posts[post_id].delete_times == 2) {
+
+                    this.posts[post_id].state = 'DELETE'
+
+                    const form = new FormData()
+                    form.append('post_str', JSON.stringify(this.posts[post_id]))
+
+                    fetch('/api/v1/posts/save', {method: 'POST', body: form})
+                        .then((r) => {
+                            if (r.ok) {
+                                this.posts = this.posts.filter((post) => {
+                                    return post.state == this.post_state
+                                })
+                            }
+                        })
+                }
+            },
+        },
+
+        beforeMount: function () {
+            this.set_posts()
+        }
+
+    })
+
+</script>
 </html>

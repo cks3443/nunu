@@ -1,6 +1,8 @@
 package com.mustard.nunu.main
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,26 +19,19 @@ class MainController {
     val MAIN_LIST_PAGE = "mainlist_mb"
 
     @GetMapping(value = [""])
-    fun getMainPage(@RequestParam("block") pageid: Int?): String {
+    fun getMainPage(
+        @RequestParam("state") state: String?,
+        model: Model
+    ): String {
 
-        var PAGE = MAIN_PAGE
+        var _state = "CONTINUE"
 
-        pageid?.let {
-
-            when (it) {
-                2 -> {
-                    PAGE = MAIN_BLOCK_PAGE
-                }
-
-                3 -> {
-                    PAGE = MAIN_LIST_PAGE
-                }
-
-                else -> {
-                }
-            }
+        state?.let {
+            _state = it
         }
 
-        return PAGE
+        model["state"] = _state
+
+        return MAIN_PAGE
     }
 }

@@ -43,4 +43,7 @@ class Post() : Base() {
             people: ${people}
         """.trimIndent()
     }
+
+    @Transient
+    open var delete_times: Int = 0
 }

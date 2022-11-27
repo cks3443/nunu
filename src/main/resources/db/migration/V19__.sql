@@ -1,0 +1,2 @@
+ALTER TABLE sub
+    ADD htarea INTEGER;

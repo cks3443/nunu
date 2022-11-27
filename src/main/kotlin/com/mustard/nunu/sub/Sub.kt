@@ -69,4 +69,8 @@ class Sub() : Base() {
 
             return keywordStorage!!.split("|").toMutableList()
         }
+
+
+    @Column(name = "htarea")
+    open var htarea: Int? = null
 }

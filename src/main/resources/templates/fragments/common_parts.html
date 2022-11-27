@@ -122,20 +122,20 @@
 </style>
 
 <div class="col-2 side_bar" style="border-right: 1px solid #c5c5c5;" th:fragment="menubar">
-    <a href="#" class="btn btn-primary btn-lg btn-block login" role="button">
+    <a th:href="@{/posts/edit}" class="btn btn-primary btn-lg btn-block login" role="button">
         +
         NEW</a>
     <ul>
         <div class="sideLi">
-            <li><a href="main.html">Continues</a></li>
+            <li><a th:href="@{/main(state='CONTINUE')}">Continues</a></li>
             <div></div>
         </div>
         <div class="sideLi">
-            <li><a href="">Done</a></li>
+            <li><a th:href="@{/main(state='DONE')}">Done</a></li>
             <div></div>
         </div>
         <div class="sideLi">
-            <li><a href="">Delete</a></li>
+            <li><a th:href="@{/main(state='DELETE')}">Delete</a></li>
             <div></div>
         </div>
     </ul>

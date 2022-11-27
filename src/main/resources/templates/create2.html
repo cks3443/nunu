@@ -400,11 +400,17 @@
                                                             v-else
                                                     >
                                                         <textarea
-                                                                style="width: 100%;"
                                                                 class="form-control textArea"
                                                                 type="text"
                                                                 placeholder=""
                                                                 v-model="post.subs[index].textarea"
+
+                                                                @input="inputTAreaEventHandler($event, index)"
+
+                                                                :style="{width: '100%',
+                                                                    height: post.subs[index].htarea == null ? '200' : post.subs[index].htarea + 'px',
+                                                                    resize: 'none'}"
+
                                                         >
                                                         </textarea>
                                                     </div>
@@ -491,6 +497,22 @@
                 })
         },
         methods: {
+
+            inputTAreaEventHandler: function (e, index) {
+
+                let hh = 200
+
+                if (this.post.subs[index].htarea != null) {
+                    hh = this.post.subs[index].htarea
+                }
+
+                if (hh < e.target.scrollHeight) {
+
+                    this.post.subs[index].htarea = e.target.scrollHeight + 10
+                } else if (200 < hh) {
+                    this.post.subs[index].htarea -= 10
+                }
+            },
 
             setOrderToSubs: function () {
                 this.post.subs.forEach((sub, i) => {
@@ -654,6 +676,8 @@
                     })
                     .then((post) => {
                         this.post = post
+
+                        window.location.replace("/main")
                     })
 
             },
