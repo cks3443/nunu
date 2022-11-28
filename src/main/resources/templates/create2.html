@@ -63,8 +63,14 @@
                                             class="fa-solid fa-align-right"></i></button>
                                     <button type="button" class="btn btn-outline-primary"><i
                                             class="fa-solid fa-align-justify"></i></button>
-                                    <a href="mobile_view.html" style="border: 0 !important;" type="button"
-                                       class="btn btn-outline-primary"><i class="fa-solid fa-mobile-screen"></i></a>
+
+                                    <a href="#" style="border: 0 !important;" type="button"
+                                       class="btn btn-outline-primary"
+
+                                       v-on:click="toggleMobView($event)"
+                                    >
+                                        <i class="fa-solid fa-mobile-screen"></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-xl-7">
@@ -73,7 +79,7 @@
                                 >
                                     <!-- Memo input-->
                                     <div
-                                            style="padding: 0px;margin: 0px;"
+                                            :style="{padding: '0px',margin: 'auto', width: !(mobview) ? '100%' : '50%'}"
                                     >
 
                                         <div class="form-floating mb-3" style="margin-bottom: unset !important;">
@@ -352,6 +358,7 @@
                                                             v-for="ord in post.subs[index].ord2"
 
                                                             v-if="ord == 0"
+                                                            style="flex-wrap: nowrap;"
                                                     >
                                                         <div
                                                                 class="column"
@@ -422,19 +429,36 @@
                                     </div>
 
 
-                                    <div class="row btnGroup">
-                                        <div class="column colDiv">
+                                    <div class="row"
+
+                                         style="
+                                            display: flex;
+                                            flex-direction: row;
+                                            align-items: center;
+                                            justify-content: flex-end;
+                                        "
+                                    >
+                                        <div
+                                                style="width: fit-content"
+                                        >
                                             <a href="#" class="btn btn-primary btn-xl hideBtn"
                                                type="submit">
                                                 <img th:src="@{/assets/img/hide.svg}"
-                                                     alt="..."/> &nbsp; Sketch All
-                                            </a></div>
-                                        <div class="column colDiv"><a href="#" class="btn btn-primary btn-xl hideBtn"
-                                                                      type="submit">
-                                            <img th:src="@{/assets/img/hide.svg}"
-                                                 alt="..."/>&nbsp; Keyword</a>
+                                                     alt="..."/> &nbsp;
+                                                Sketch All
+                                            </a>
+                                        </div>
+                                        <div
+                                                style="width: fit-content"
+                                        >
+                                            <a href="#" class="btn btn-primary btn-xl hideBtn" type="submit">
+                                                <img th:src="@{/assets/img/hide.svg}" alt="..."/>
+                                                &nbsp; Keyword
+                                            </a>
                                         </div>
                                     </div>
+
+
                                     <div
                                             class="saveBtn"
 
@@ -451,6 +475,25 @@
                                              v-on:click="savePost($event, 'CONTINUE')"
                                         >
                                             save
+                                        </div>
+                                    </div>
+
+                                    <div
+                                            class="saveBtn"
+
+                                            style="
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                margin-top: 15px;
+                                            "
+                                    >
+                                        <div style=" width: 100%;"
+                                             class="btn btn-primary btn-xl"
+
+                                             v-on:click="savePost($event, 'DONE')"
+                                        >
+                                            done
                                         </div>
                                     </div>
                                 </form>
@@ -477,6 +520,7 @@
             CONTINUE: 'CONTINUE',
             DONE: 'DONE',
             DELETE: 'DELETE',
+            mobview: false,
         },
         beforeMount: function () {
             let urlroot = '/api/v1/posts'
@@ -497,6 +541,11 @@
                 })
         },
         methods: {
+            toggleMobView: function (event) {
+                event.preventDefault()
+
+                this.mobview = !(this.mobview)
+            },
 
             inputTAreaEventHandler: function (e, index) {
 

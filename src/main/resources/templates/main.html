@@ -112,8 +112,6 @@
                         <a th:href="@{#}" style="border: 0 !important;  opacity: unset" type="button"
                            class="btn btn-outline-primary"
 
-                           th:if="false"
-
                            v-on:click="setViewNum($event, 2)"
                         >
                             <img class="" th:src="@{/assets/img/block.svg}" alt="..."/>
@@ -182,52 +180,61 @@
                     </div>
 
                     <div class="container" v-if="view_num == 2"
-
-                         th:if="false"
                     >
                         <!-- Section Form-->
                         <div class="row justify-content-center">
-                            <div class="col-lg-8 col-xl-7">
-                                <form>
-                                    <div class="row">
-                                        <div class="column">
-                                            <div class="divTable">
-                                                <div class="divTableBody">
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell firstRow"><a href="edit.html"> 구미
-                                                            멋집소개</a>
-                                                            <span> <i class="fa-regular fa-circle"></i>
-                                                                    </span>
-                                                        </div>
+                            <form>
+                                <div
+                                        style="
+                                          display: grid;
+                                          grid-template-columns: repeat(2, 1fr);
+                                          gap: 10px;
+                                        "
+                                >
+                                    <div class="divTable"
+                                         v-for="(post,post_id) in posts"
 
-                                                    </div>
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell">SubHeading1</div>
-                                                    </div>
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell">SubHeading1</div>
-                                                    </div>
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell">SubHeading1</div>
-                                                    </div>
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell">SubHeading1</div>
-                                                    </div>
-                                                    <div class="divTableRow">
-                                                        <div class="divTableCell">SubHeading1</div>
-                                                    </div>
-                                                    <div class="divTableRow ">
-                                                        <div class="divTableCell lastRow">SubHeading1</div>
-                                                    </div>
+                                    >
+                                        <div class="divTableBody">
+                                            <div class="divTableRow">
+                                                <div class="divTableCell firstRow">
+                                                    <a
+                                                            :href="'/posts/edit/' + post.id"
+                                                    >
+                                                        {{post.title}}
+                                                    </a>
+                                                    <span
+                                                            v-on:click="clickDeleteBtnHandler(post_id)"
+                                                            v-if="post.delete_times == 0"
+                                                    >
+                                                    <i class="fa-regular fa-circle">
+                                                    </i>
+                                                </span>
+                                                    <span
+                                                            v-on:click="clickDeleteBtnHandler(post_id)"
+                                                            v-else
+
+                                                            style="color: red; width: 12px;height: 12px;border-radius: 50%;"
+                                                    >
+                                                </span>
+
                                                 </div>
                                             </div>
+
+                                            <div
+                                                    class="divTableRow"
+                                                    v-for="order in post.ord"
+                                            >
+                                                <div class="divTableCell">{{post.subs[order].heading}}</div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                            </form>
 
-                                <div th:replace="~{fragments/common_parts :: newButton}"></div>
+                            <div th:replace="~{fragments/common_parts :: newButton}"></div>
 
-                            </div>
                         </div>
                     </div>
 
@@ -315,10 +322,6 @@
             },
 
             clickDeleteBtnHandler: function (post_id) {
-
-                console.log('jlkjljljljljlkj')
-
-                console.log(this.posts[post_id].delete_times)
 
                 this.posts[post_id].delete_times += 1
 
