@@ -92,6 +92,7 @@
 <body id="page-top">
 <div class="container-fluid" id="app">
     <div class="row"
+         :style="{display: post == null ? 'none' : 'block'}"
     >
 
         <div th:replace="~{fragments/common_parts :: menubar}"></div>
@@ -103,32 +104,24 @@
                 <nav th:replace="~{fragments/common_parts :: navbar}"></nav>
 
                 <section class="page-section" id="contact">
-
                     <div class="newButton">
                         <a th:href="@{/posts/edit/{id}(id=${id})}"><i class="fa-solid fa-pen"></i></a>
                     </div>
-
-
                     <div class="container">
                         <!-- Section Form-->
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-xl-7">
-                                <form
-                                >
+                                <form>
                                     <!-- Memo input-->
                                     <div class="form-floating mb-3" style="margin-bottom: unset !important;">
                                         <input style="border: unset; font-size: 2rem;" class="form-control disableInput"
                                                type="text"
-                                               v-if="post != null"
-                                               :value="post.title"
-                                               disabled
-                                        />
+                                               v-model="post.title"
+                                               disabled/>
 
                                     </div>
 
                                     <div
-                                            v-if="post != null"
-
                                             v-for="order in post.ord"
                                     >
                                         <div class="row image3">
@@ -144,11 +137,11 @@
                                         </div>
 
                                         <div class="form-floating mb-3  input-group forminput"
-                                             v-if="false"
                                         >
                                             <texarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
-                                                     class="form-control disableInput" type="text" disabled>파란 하늘이 아름다운
-                                                여름 오후다
+                                                     class="form-control disableInput" type="text" disabled
+                                                     v-model="post.subs[order].heading"
+                                            >
                                             </texarea>
                                         </div>
 
@@ -169,8 +162,8 @@
                                         <div>
                                             <texarea style="border: unset; font-size: 1rem;padding-top: 0.5rem"
                                                      class="form-control disableInput" type="text" disabled
+                                                     v-model="post.subs[order].textarea"
                                             >
-                                                {{post.subs[order].textarea}}
                                             </texarea>
                                         </div>
                                     </div>
@@ -214,7 +207,7 @@
             post: null,
             post_id: [[${id}]],
         },
-        beforeMount: function () {
+        created: function () {
             let urlroot = `/api/v1/posts/${this.post_id}`
 
             fetch(urlroot, {method: 'POST'})
@@ -223,11 +216,7 @@
                     if (r.ok) return r.json()
                 })
                 .then((post) => {
-                    console.log(post)
-
                     this.post = post
-
-                    this.$forceUpdate()
                 })
         },
 

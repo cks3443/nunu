@@ -442,7 +442,9 @@
                                                 style="width: fit-content"
                                         >
                                             <a href="#" class="btn btn-primary btn-xl hideBtn"
-                                               type="submit">
+
+                                               v-on:click="clickSketchAllBtnHandler($event)"
+                                            >
                                                 <img th:src="@{/assets/img/hide.svg}"
                                                      alt="..."/> &nbsp;
                                                 Sketch All
@@ -451,7 +453,9 @@
                                         <div
                                                 style="width: fit-content"
                                         >
-                                            <a href="#" class="btn btn-primary btn-xl hideBtn" type="submit">
+                                            <a href="#" class="btn btn-primary btn-xl hideBtn"
+                                               v-on:click="clickKeywordBtnHandler($event)"
+                                            >
                                                 <img th:src="@{/assets/img/hide.svg}" alt="..."/>
                                                 &nbsp; Keyword
                                             </a>
@@ -521,8 +525,9 @@
             DONE: 'DONE',
             DELETE: 'DELETE',
             mobview: false,
+            post_copied: null,
         },
-        beforeMount: function () {
+        created: function () {
             let urlroot = '/api/v1/posts'
 
             if (this.id != -1) {
@@ -536,6 +541,8 @@
                 })
                 .then((post) => {
                     this.post = post
+
+                    this.post_copied = JSON.stringify(this.post)
                 })
         },
         methods: {
@@ -745,8 +752,41 @@
                     alert("먼저 저장해주세요")
                 }
 
-            }
+            },
 
+            clickSketchAllBtnHandler: function (e) {
+                e.preventDefault()
+                if (this.post.id == null) {
+                    window.alert("저장을 해주세요")
+
+                    return
+                }
+
+                if (this.post_copied == JSON.stringify(this.post)) {
+                    window.location.replace(`/view/1/${this.post.id}`)
+                } else {
+                    window.alert("저장을 해주세요")
+
+                    return
+
+                }
+            },
+            clickKeywordBtnHandler: function (e) {
+                e.preventDefault()
+                if (this.post.id == null) {
+                    window.alert("저장을 해주세요")
+
+                    return
+                }
+
+                if (this.post_copied == JSON.stringify(this.post)) {
+                    window.location.replace(`/view/2/${this.post.id}`)
+                } else {
+                    window.alert("저장을 해주세요")
+
+                    return
+                }
+            }
         },
 
         computed: {},
