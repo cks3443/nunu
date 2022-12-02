@@ -140,7 +140,7 @@
         </div>
     </ul>
     <hr/>
-    <div class="column"><a href="mypage.html" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a></div>
+    <div class="column"><a th:href="@{/mypage}" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a></div>
     <div class="column"><a href="noti.html" class="btn btn-primary btn-xl sideBtn" type="submit">noti</a></div>
 </div>
 
@@ -150,7 +150,7 @@
 
         th:fragment="navbar"
 >
-    <div class="logo"><a class="navbar-brand" href="main.html">LOGO</a></div>
+    <div class="logo"><a class="navbar-brand" th:href="@{/main}">LOGO</a></div>
     <div class="container mobileContainer">
         <form action="#" class="searchForm">
             <div class="form-group has-search">
