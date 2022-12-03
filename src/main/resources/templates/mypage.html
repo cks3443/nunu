@@ -97,7 +97,7 @@
     </style>
 </head>
 <body id="page-top">
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
 
         <div th:replace="~{fragments/common_parts :: menubar}"></div>
@@ -131,6 +131,7 @@
                                             <div class="col-10">
                                                 <input type="password" class="form-control"
                                                        th:placeholder="${'비밀번호 변경'}"
+                                                       id="inp1"
                                                 />
                                             </div>
                                         </div>
@@ -141,6 +142,7 @@
                                             <div class="col-10">
                                                 <input type="password" class="form-control"
                                                        th:placeholder="${'비밀번호 변경'}"
+                                                       id="inp2"
                                                 />
                                             </div>
                                         </div>
@@ -167,8 +169,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="saveBtn"><a href="main.html" style=" width: 100%; margin-top: 20px;"
-                                                            class="btn btn-primary btn-xl" type="submit">Confirm</a>
+                                    <div class="saveBtn">
+                                        <a href="#" style=" width: 100%; margin-top: 20px;"
+                                           id="savebtn"
+                                           class="btn btn-primary btn-xl"
+                                        >
+                                            Confirm
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -179,5 +186,50 @@
         </div>
     </div>
 </div>
+<script th:src="@{/bower_components/jquery/dist/jquery.js}"></script>
+<script th:src="@{/bower_components/underscore/underscore.js}"></script>
+<script th:src="@{/bower_components/backbone/backbone.js}"></script>
+
+<script>
+    $(function () {
+        const v = Backbone.View.extend({
+            el: '#app',
+
+            options: {
+                uid: '[[${id}]]',
+            },
+
+            events: {
+                "click a.btn.btn-primary": "clickSaveBtnHandler"
+            },
+
+            clickSaveBtnHandler: function (e) {
+                e.preventDefault()
+
+                let passwd1 = $('#inp1').val()
+                let passwd2 = $('#inp2').val()
+
+                if (passwd1 != '') {
+
+                    if (passwd1 != passwd2) {
+                        window.alert("비밀번호를 확인해주세요.")
+                    } else {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: `/mypage/passwd?id=${this.options.uid}&passwd=${passwd1}`,
+                            success: function (d) {
+
+                                window.location.replace("/main")
+                            }
+                        })
+                    }
+                }
+            }
+        })
+
+        new v()
+    })
+</script>
 </body>
 </html>

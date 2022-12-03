@@ -31,4 +31,18 @@ class UserService(
     }
 
     fun deleteUser(id: String) = users.deleteById(id)
+
+    fun encodePassword(passwd: String) = encoder.encode(passwd)
+
+    fun setPasswdToMember(
+        email: String,
+        passwd: String,
+    ) {
+
+        val member = users.findByEmail(email)
+
+        member?.pwd = encodePassword(passwd)
+
+        users.save(member!!)
+    }
 }
