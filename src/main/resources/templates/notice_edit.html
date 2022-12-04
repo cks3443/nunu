@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title></title>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/newStyle.css}" rel="stylesheet"/>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+
+    <style type="text/css">
+        .login {
+            margin-top: 7.8rem;
+            background-color: black;
+            border-radius: 30px !important;
+        }
+
+        .saveBtn {
+            width: 250px;
+            margin: auto
+        }
+
+        .saveBtn a {
+            border-radius: 0.93rem !important;
+        }
+
+        .row .col-2, .col-10 {
+            padding: 1rem;
+            color: black;
+            border-color: black !important
+        }
+
+        .col-10 input {
+            width: 100%;
+        }
+
+        .row .col-2 {
+            margin-top: 0.5rem
+        }
+
+        .col-10 textarea {
+            width: 250px;
+        }
+
+        .col-10 textarea {
+            width: 100%;
+            height: 100px;
+            border: 0.125rem solid black;
+        }
+    </style>
+</head>
+<body id="page-top">
+<div class="container-fluid" id="app">
+    <div class="row">
+
+        <div th:replace="~{fragments/common_parts :: menubar}"></div>
+
+        <div class="col-10">
+            <div class="row">
+
+                <!-- Navigation-->
+                <nav th:replace="~{fragments/common_parts :: navbar}"></nav>
+
+                <section class="page-section" id="contact">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-xl-7">
+                                <form>
+                                    <div class="profileForm">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <textarea type="text" class="form-control"></textarea>
+                                                <button type="button" class="btn btn-primary btn-sm save"
+                                                        style="margin-top:20px; width:100%;"
+                                                >저장
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/common_parts::backbonejs}"></th:block>
+
+<script>
+    $(function () {
+        const Notice = Backbone.Model.extend({
+            urlRoot: "/api/notices",
+
+            defaults: {
+                id: '[[${id}]]',
+            },
+
+            initialize: function () {
+                const self = this
+                this.fetch({
+                    success: function () {
+                        console.log(self)
+                    }
+                })
+            }
+        })
+
+        const NoticeView = Backbone.View.extend({
+
+            el: '#app',
+
+            events: {
+                "click .save": "onClick"
+            },
+
+            initialize: function () {
+                $('textarea').val(this.model.get('text'))
+            },
+
+            onClick: function (e) {
+                let text = $('textarea').val()
+
+                this.model.set('text', text)
+
+                this.model.save({}, {
+                    success: function (model) {
+                        window.location.replace("/notice")
+                    },
+                })
+            }
+        })
+
+        const notice = new Notice()
+
+        const nv = new NoticeView({model: notice,})
+    })
+</script>
+</body>
+</html>

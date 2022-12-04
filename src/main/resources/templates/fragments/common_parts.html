@@ -140,8 +140,8 @@
         </div>
     </ul>
     <hr/>
-    <div class="column"><a th:href="@{/mypage}" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a></div>
-    <div class="column"><a href="noti.html" class="btn btn-primary btn-xl sideBtn" type="submit">noti</a></div>
+    <div class="column"><a th:href="@{/mypage}" class="btn btn-primary btn-xl sideBtn"> ID</a></div>
+    <div class="column"><a th:href="@{/notice}" class="btn btn-primary btn-xl sideBtn">noti</a></div>
 </div>
 
 <nav
@@ -191,6 +191,12 @@
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
     <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
+</th:block>
+
+<th:block th:fragment="backbonejs">
+    <script th:src="@{/bower_components/jquery/dist/jquery.js}"></script>
+    <script th:src="@{/bower_components/underscore/underscore.js}"></script>
+    <script th:src="@{/bower_components/backbone/backbone.js}"></script>
 </th:block>
 </body>
 </html>

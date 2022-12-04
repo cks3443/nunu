@@ -20,16 +20,16 @@ import java.text.SimpleDateFormat
 @Controller
 @RequestMapping("/mypage")
 class MyPageController(
-        private val postService: PostService,
-        private val userService: UserService,
+    private val postService: PostService,
+    private val userService: UserService,
 ) {
 
     val MY_PAGE = "mypage"
 
     @GetMapping
     fun getMyPage(
-            @AuthenticationPrincipal user: People,
-            model: Model,
+        @AuthenticationPrincipal user: People,
+        model: Model,
     ): String {
 
         model["id"] = user.email
@@ -52,8 +52,8 @@ class MyPageController(
 
     @PostMapping("/passwd")
     fun setPasswd(
-            @RequestParam id: String,
-            @RequestParam passwd: String,
+        @RequestParam id: String,
+        @RequestParam passwd: String,
     ): ResponseEntity<String> {
 
         return try {

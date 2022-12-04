@@ -1,0 +1,2 @@
+ALTER TABLE people
+    ADD role VARCHAR(255);
