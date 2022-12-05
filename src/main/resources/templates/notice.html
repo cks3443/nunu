@@ -77,7 +77,7 @@
 
                         <a type="button" th:href="@{/notice/edit}" class="btn btn-primary btn-sm" role="button"
                            sec:authorize="hasAuthority('ADMIN')"
-                        >edit</a>
+                        >추가</a>
 
                         <div class="row justify-content-center">
 
@@ -95,7 +95,15 @@
                                             <div class="col-10">
                                                 <textarea type="text" class="form-control"
                                                           th:text="${notice.text}"
+                                                          readonly
                                                 >우리가 보내는 안내글</textarea>
+                                                <a type="button" th:href="@{/notice/edit/{id}(id=${notice.id})}"
+                                                   class="btn btn-primary btn-sm"
+                                                   role="button"
+                                                   sec:authorize="hasAuthority('ADMIN')"
+
+                                                   style="margin-top:10px;"
+                                                >수정</a>
                                             </div>
                                         </div>
                                     </div>

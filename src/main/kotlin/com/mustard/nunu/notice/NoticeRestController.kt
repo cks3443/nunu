@@ -1,5 +1,6 @@
 package com.mustard.nunu.notice
 
+import com.google.gson.Gson
 import com.mustard.nunu.user.People
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -7,40 +8,24 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/notices")
+@RequestMapping("/api/v1/notices")
 class NoticeRestController(
     private val notices: NoticeRepository,
+    private val gson: Gson,
 ) {
 
-    @GetMapping(value = ["", "/{id}"])
-    fun getNoticeById(
-        id: Long?,
-    ): ResponseEntity<Notice?> {
+    @GetMapping
+    @Throws(Exception::class)
+    fun getNotice() = Notice()
 
-        println("getNoticeById Function Running")
-        return try {
-            var notice: Notice? = null
+    @GetMapping(value = ["/{id}"])
+    @Throws(Exception::class)
+    fun getNoticeById(@PathVariable id: Long) = notices.findById(id).get()
 
-            id?.let {
-                notice = notices.findById(it).get()
-            } ?: run {
-                notice = Notice()
-            }
-
-            ResponseEntity.ok().body(notice)
-        } catch (e: RuntimeException) {
-            e.printStackTrace()
-
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null)
-        }
-
-    }
 
     @PostMapping
     @Throws(Exception::class)
-    fun saveNotice(@RequestBody notice: Notice): Notice {
-        return notices.save(notice)
-    }
+    fun saveNotice(@RequestBody notice: Notice)= notices.save(notice)
 
     @PutMapping("/{id}")
     @Throws(Exception::class)

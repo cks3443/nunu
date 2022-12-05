@@ -1,13 +1,13 @@
 package com.mustard.nunu.notice
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mustard.nunu.base.Base
 import com.mustard.nunu.user.People
-import net.minidev.json.annotate.JsonIgnore
 import javax.persistence.*
 
 @Entity
-open class Notice : Base() {
-    @Column(name = "text", length = 5000)
+class Notice() : Base() {
+    @Column(name = "text", length = 1000)
     open var text: String? = null
 
 

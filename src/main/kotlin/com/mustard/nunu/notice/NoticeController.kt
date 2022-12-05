@@ -31,9 +31,9 @@ class NoticeController(
         return NOTICE_PAGE
     }
 
-    @GetMapping(value = ["/edit"])
+    @GetMapping(value = ["/edit", "/edit/{id}"])
     fun getNoticeEditPage(
-        @RequestParam id: Long?,
+        @PathVariable id: Long?,
         model: Model,
     ): String {
 
