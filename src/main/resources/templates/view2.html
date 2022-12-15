@@ -31,9 +31,6 @@
                 width: 100% !important;
             }
 
-            .searchForm {
-                display: none;
-            }
         }
 
         .btnGroup {
@@ -111,7 +108,7 @@
                         <!-- Section Form-->
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-xl-7">
-                                <form>
+                                <form v-if="post != null">
                                     <!-- Memo input-->
                                     <div class="form-floating mb-3" style="margin-bottom: unset !important;">
                                         <input style="border: unset; font-size: 2rem;" class="form-control disableInput"
@@ -138,11 +135,11 @@
 
                                         <div class="form-floating mb-3  input-group forminput"
                                         >
-                                            <texarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
-                                                     class="form-control disableInput" type="text" disabled
-                                                     v-model="post.subs[order].heading"
+                                            <textarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
+                                                      class="form-control disableInput" type="text" disabled
+                                                      v-model="post.subs[order].heading"
                                             >
-                                            </texarea>
+                                            </textarea>
                                         </div>
 
                                         <div class="row image3">
@@ -160,11 +157,11 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <texarea style="border: unset; font-size: 1rem;padding-top: 0.5rem"
-                                                     class="form-control disableInput" type="text" disabled
-                                                     v-model="post.subs[order].textarea"
+                                            <textarea style="border: unset; font-size: 1rem;padding-top: 0.5rem"
+                                                      class="form-control disableInput" type="text" disabled
+                                                      v-model="post.subs[order].textarea"
                                             >
-                                            </texarea>
+                                            </textarea>
                                         </div>
                                     </div>
 
@@ -217,6 +214,8 @@
                 })
                 .then((post) => {
                     this.post = post
+
+                    console.log(this.post)
                 })
         },
 

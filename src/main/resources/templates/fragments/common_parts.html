@@ -151,14 +151,16 @@
         th:fragment="navbar"
 >
     <div class="logo"><a class="navbar-brand" th:href="@{/main}">LOGO</a></div>
-    <div class="container mobileContainer">
-        <form action="#" class="searchForm">
+    <div class="container">
+        <form action="#" class="searchForm" >
             <div class="form-group has-search">
-                                <span style="margin-left: 15px; width: 15px;"
-                                      class="fa fa-search form-control-feedback"></span>
-                <input style="width: 100%;" type="text" class="form-control searchInput">
+                <span  style="margin-left: 15px; width: 15px;" class="fa fa-search form-control-feedback"></span>
+                <input  style="width: 100%;" type="text" class="form-control searchInput">
             </div>
         </form>
+        <div>
+            <a class="block" th:href="@{/main}"><img class="" th:src="@{/assets/img/profile.svg}" alt="..."/></a>
+        </div>
     </div>
 </nav>
 
