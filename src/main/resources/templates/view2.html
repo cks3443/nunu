@@ -16,7 +16,7 @@
     <link th:href="@{/css/newStyle.css}" rel="stylesheet"/>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
     <style type="text/css">
-        @media all and (max-width: 700px) {
+        @media (max-width: 700px) {
             .navbar-brand {
                 display: none;
                 padding-top: 0.5rem;
@@ -121,6 +121,14 @@
                                     <div
                                             v-for="order in post.ord"
                                     >
+                                        <div class="form-floating mb-3  input-group forminput"
+                                        >
+                                            <textarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
+                                                      class="form-control disableInput" type="text" disabled
+                                                      v-model="post.subs[order].heading"
+                                            >
+                                            </textarea>
+                                        </div>
                                         <div class="row image3">
                                             <div class="column"
                                                  v-for="img_src in post.subs[order].images"
@@ -133,16 +141,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-floating mb-3  input-group forminput"
-                                        >
-                                            <textarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
-                                                      class="form-control disableInput" type="text" disabled
-                                                      v-model="post.subs[order].heading"
-                                            >
-                                            </textarea>
-                                        </div>
-
-                                        <div class="row image3">
+                                        <div class="row image3" v-if="false">
                                             <div class="column"
                                                  v-for="img in post.subs[order].imgframe"
 

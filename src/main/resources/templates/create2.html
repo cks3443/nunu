@@ -16,13 +16,140 @@
     <link th:href="@{/css/newStyle.css}" rel="stylesheet"/>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
 
-    <style th:replace="~{fragments/common_parts :: styleFragment}"></style>
+    <style type="text/css" th:fragment="styleFragment">
 
-    <style>
-        textarea ::-webkit-scrollbar {
+        @media (max-width: 700px) {
+            .ismobile {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 700px) {
+            .ismobile {
+                display: none;
+            }
+        }
+
+        @media all and (max-width: 700px) {
+            #mainNav {
+                display: none
+            }
+
+            .page-section {
+                padding: 0rem 0;
+            }
+
+            .btnGroup .saveBtn {
+                width: 100% !important;
+            }
+
+            .profile {
+                display: none;
+            }
+
+            form {
+                padding-top: 35px
+            }
+
+            .searchForm {
+                display: none;
+            }
+
+        }
+
+        .saveBtn a {
+            border-radius: 0.93rem !important;
+        }
+
+        .image3 .column {
+            width: 31%;
+            padding: 10px 5px 10px 5px;
+            margin-left: 5px;
+        }
+
+        .btnGroup .column {
+            width: 50%;
+        }
+
+        .btnGroup {
+            width: 50%;
+            float: right;
+        }
+
+        .image3 .col-1 {
+            width: 1%;
+        }
+
+        .alignType {
+            z-index: 2;
+        }
+
+        .alignType a:hover {
+            color: black;
+            opacity: unset;
+        }
+
+        .login {
+            margin-top: 7.8rem;
+            background-color: black;
+            border-radius: 30px !important;
+        }
+
+        .column .mup-main-msg {
+            font-size: 0.7rem;
+            color: #B8B8B8;
+        }
+
+        /* RIGHT CLICK CSS */
+        .contextMenu {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            color: #ffffff;
+            background: #262933;
+            border: 1px solid #333333;
+            box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.5);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             display: none;
+            z-index: 4;
+        }
+
+        .contextMenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 4;
+        }
+
+        .contextMenu ul li {
+            border-bottom: #ffffff 1px solid;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contextMenu ul li:last-child {
+            border-bottom: none;
+        }
+
+        .contextMenu ul li a {
+            text-align: left;
+            display: block;
+            padding: 5px 10px;
+            color: #ffffff;
+            text-transform: capitalize;
+            text-decoration: none;
+        }
+
+        .contextMenu ul li a:hover {
+            background: #2777FF;
         }
     </style>
+
 </head>
 <body id="page-top">
 <div class="container-fluid" id="app">
@@ -341,7 +468,43 @@
 
                                                     </label>
                                                 </div>
+
+                                                <div
+                                                        v-if="false && !(post.subs[index].showControlPanel) && post.subs[index].images.length != 0"
+                                                >
+                                                    <div class="row" style="padding: 0 30px;">
+                                                        <div
+                                                                class="column"
+
+                                                                v-for="(img_id, img_index) in post.subs[index].images"
+                                                        >
+                                                            <div class="form-input">
+                                                                <div class="preview"></div>
+                                                                <label
+                                                                        v-bind:for="'id_' + index + '_' + img_index"
+                                                                >
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] == ''"
+                                                                            src="/assets/img/image_frame.svg"
+                                                                    />
+                                                                    <img
+                                                                            v-if="post.subs[index].images[img_index] != ''"
+                                                                            v-bind:src="'/files/' + img_id"
+                                                                    />
+                                                                </label>
+                                                                <input
+                                                                        @change="uploadImageEventHandler(index, img_index, $event)"
+                                                                        v-bind:id="'id_' + index + '_' + img_index"
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <draggable
+
+                                                        v-if="!(post.subs[index].showControlPanel)"
 
                                                         v-model="post.subs[index].ord2"
 
@@ -357,60 +520,58 @@
                                                 >
 
                                                     <div
-                                                            class="row image3 drag-el-2"
 
+                                                            v-for="(ord, ord_index) in post.subs[index].ord2"
+                                                            class="row image3 drag-el-2"
                                                             data-id="0"
 
-                                                            v-for="ord in post.subs[index].ord2"
+                                                            v-if="!(post.subs[index].showControlPanel) && post.subs[index].images.length != 0 && ord == 0"
 
-                                                            v-if="ord == 0"
                                                             style="flex-wrap: nowrap;"
                                                     >
-                                                        <div
-                                                                class="column"
+                                                        <div class="row" style="padding: 0 30px;">
+                                                            <div
+                                                                    class="column"
 
-                                                                v-for="(fv, fv_index) in post.subs[index].imgframe"
-                                                        >
-                                                            <div class="form-input">
-                                                                <div class="preview"></div>
-
-                                                                <label
-                                                                        v-bind:for="`fv-${index}-${fv_index}`"
-                                                                >
-                                                                    <img
-                                                                            v-if="fv == ''"
-                                                                            th:src="@{/assets/img/Image_frame_pc.svg}"
-                                                                            alt="..."
+                                                                    v-for="(img_id, img_index) in post.subs[index].images"
+                                                            >
+                                                                <div class="form-input">
+                                                                    <div class="preview"></div>
+                                                                    <label
+                                                                            v-bind:for="'id_' + index + '_' + img_index"
+                                                                    >
+                                                                        <img
+                                                                                v-if="post.subs[index].images[img_index] == ''"
+                                                                                src="/assets/img/image_frame.svg"
+                                                                        />
+                                                                        <img
+                                                                                v-if="post.subs[index].images[img_index] != ''"
+                                                                                v-bind:src="'/files/' + img_id"
+                                                                        />
+                                                                    </label>
+                                                                    <input
+                                                                            @change="uploadImageEventHandler(index, img_index, $event)"
+                                                                            v-bind:id="'id_' + index + '_' + img_index"
+                                                                            type="file"
+                                                                            accept="image/*"
                                                                     />
-                                                                    <img
-                                                                            v-else
-                                                                            v-bind:src="'/files/' + fv"
-                                                                            alt="..."
-                                                                    />
-                                                                </label>
-
-                                                                <input
-                                                                        v-bind:id="`fv-${index}-${fv_index}`"
-                                                                        type="file"
-                                                                        accept="image/*"
-
-                                                                        @change="setImgFrame($event, index, fv_index)"
-                                                                />
+                                                                </div>
                                                             </div>
-                                                        </div>
-
-                                                        <div class="col-1 drag-handle-2">
-                                                            <i style="margin-top:1rem;"
-                                                               class="fa-solid fa-ellipsis-vertical"></i>
+                                                            <div class="col-1 drag-handle-2">
+                                                                <i style="margin-top:1rem;"
+                                                                   class="fa-solid fa-ellipsis-vertical"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div
-                                                            class="drag-el-2"
+                                                        class="drag-el-2"
 
-                                                            data-id="1"
+                                                        data-id="1"
 
-                                                            v-else
+                                                        v-else
+
+                                                        style="clear: both;"
                                                     >
                                                         <textarea
                                                                 class="form-control textArea"
@@ -421,6 +582,7 @@
                                                                 @input="inputTAreaEventHandler($event, index)"
 
                                                                 :style="{width: '100%',
+                                                                    overflow: 'hidden',
                                                                     height: post.subs[index].htarea == null ? '200' : post.subs[index].htarea + 'px',
                                                                     resize: 'none'}"
 
@@ -429,6 +591,28 @@
                                                     </div>
 
                                                 </draggable>
+
+                                                <div
+                                                            v-if="(post.subs[index].showControlPanel)"
+
+                                                            style="clear: both;"
+                                                >
+                                                        <textarea
+                                                                class="form-control textArea"
+                                                                type="text"
+                                                                placeholder=""
+                                                                v-model="post.subs[index].textarea"
+
+                                                                @input="inputTAreaEventHandler($event, index)"
+
+                                                                :style="{width: '100%',
+                                                                    overflow: 'hidden',
+                                                                    height: post.subs[index].htarea == null ? '200' : post.subs[index].htarea + 'px',
+                                                                    resize: 'none'}"
+
+                                                        >
+                                                        </textarea>
+                                                </div>
                                             </div>
                                         </draggable>
 
@@ -501,9 +685,24 @@
                                         <div style=" width: 100%;"
                                              class="btn btn-primary btn-xl"
 
-                                             v-on:click="savePost($event, 'DONE')"
+                                             v-on:click="donePost($event, 'DONE')"
                                         >
                                             done
+                                        </div>
+                                    </div>
+                                    <div
+                                            class="saveBtn ismobile"
+
+                                            style="
+                                                margin-top: 15px;
+                                            "
+                                    >
+                                        <div style=" width: 100%;"
+                                             class="btn btn-primary btn-xl"
+
+                                             v-on:click="donePost($event, 'DONE')"
+                                        >
+                                            home
                                         </div>
                                     </div>
                                 </form>
@@ -568,8 +767,8 @@
 
                 if (hh < e.target.scrollHeight) {
 
-                    this.post.subs[index].htarea = e.target.scrollHeight + 10
-                } else if (200 < hh) {
+                    this.post.subs[index].htarea = e.target.scrollHeight
+                } else if (200 < hh && e.inputType == 'deleteContentBackward') {
                     this.post.subs[index].htarea -= 10
                 }
             },
@@ -736,8 +935,33 @@
                     })
                     .then((post) => {
                         this.post = post
+                    })
 
-                        window.location.replace("/main")
+            },
+
+            donePost: function (event, state) {
+                event.preventDefault()
+
+                this.post.state = state
+
+                let data = new FormData()
+
+                this.post.subs.forEach((sub) => {
+
+                    sub.keywordStorage = sub.keywords.join('|')
+
+                })
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+
+                        window.location.replace('/main')
                     })
 
             },
@@ -761,37 +985,56 @@
             },
 
             clickSketchAllBtnHandler: function (e) {
-                e.preventDefault()
-                if (this.post.id == null) {
-                    window.alert("저장을 해주세요")
 
-                    return
-                }
+                event.preventDefault()
 
-                if (this.post_copied == JSON.stringify(this.post)) {
-                    window.location.replace(`/view/1/${this.post.id}`)
-                } else {
-                    window.alert("저장을 해주세요")
+                this.post.state = this.CONTINUE
 
-                    return
+                let data = new FormData()
 
-                }
+                this.post.subs.forEach((sub) => {
+
+                    sub.keywordStorage = sub.keywords.join('|')
+
+                })
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+
+                        window.location.replace(`/view/1/${this.post.id}`)
+                    })
             },
             clickKeywordBtnHandler: function (e) {
-                e.preventDefault()
-                if (this.post.id == null) {
-                    window.alert("저장을 해주세요")
 
-                    return
-                }
+                event.preventDefault()
 
-                if (this.post_copied == JSON.stringify(this.post)) {
-                    window.location.replace(`/view/2/${this.post.id}`)
-                } else {
-                    window.alert("저장을 해주세요")
+                this.post.state = this.CONTINUE
 
-                    return
-                }
+                let data = new FormData()
+
+                this.post.subs.forEach((sub) => {
+
+                    sub.keywordStorage = sub.keywords.join('|')
+
+                })
+
+                data.append('post_str', JSON.stringify(this.post))
+
+                fetch('/api/v1/posts/save', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+
+                        window.location.replace(`/view/2/${this.post.id}`)
+                    })
             }
         },
 

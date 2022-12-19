@@ -230,6 +230,8 @@
                     })
                     .then((post) => {
                         this.post = post
+
+                        window.location.replace(`/posts/edit/${this.id}`)
                     })
 
             },
