@@ -141,7 +141,6 @@
                                     <div class="divTableBody">
                                         <div class="divTableRow">
                                             <div class="divTableCell firstRow"
-                                                 @click="onClickPost($event, post.id)"
                                             >
                                                 <a
                                                         :href="'/posts/edit/' + post.id"
@@ -149,23 +148,27 @@
                                                     {{post.title}}
                                                 </a>
                                                 <span
-                                                        v-on:click="clickDeleteBtnHandler(post_id)"
+                                                        v-on:click="clickDeleteBtnHandler($event, post_id)"
                                                         v-if="post.delete_times == 0"
                                                 >
                                                     <i class="fa-regular fa-circle">
                                                     </i>
                                                 </span>
                                                 <span
-                                                        v-on:click="clickDeleteBtnHandler(post_id)"
-                                                        v-else
+                                                        v-on:click="clickDeleteBtnHandler($event, post_id)"
+                                                        v-else-if="post.delete_times == 1"
 
                                                         style="color: red; width: 12px;height: 12px;border-radius: 50%;"
                                                 >
+                                                    <i class="fa-regular fa-circle">
+                                                    </i>
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div
+                                                @click="onClickPost($event, post.id)"
+
                                                 class="divTableRow"
                                                 v-for="order in post.ord"
                                         >
@@ -207,18 +210,20 @@
                                                         {{post.title}}
                                                     </a>
                                                     <span
-                                                            v-on:click="clickDeleteBtnHandler(post_id)"
+                                                            v-on:click="clickDeleteBtnHandler($event, post_id)"
                                                             v-if="post.delete_times == 0"
                                                     >
                                                     <i class="fa-regular fa-circle">
                                                     </i>
                                                 </span>
                                                     <span
-                                                            v-on:click="clickDeleteBtnHandler(post_id)"
+                                                            v-on:click="clickDeleteBtnHandler($event, post_id)"
                                                             v-else
 
                                                             style="color: red; width: 12px;height: 12px;border-radius: 50%;"
                                                     >
+                                                    <i class="fa-regular fa-circle">
+                                                    </i>
                                                 </span>
 
                                                 </div>
@@ -328,7 +333,13 @@
                 this.set_posts()
             },
 
-            clickDeleteBtnHandler: function (post_id) {
+            clickDeleteBtnHandler: function (e, post_id) {
+
+                e.preventDefault()
+
+                if (this.posts[post_id].delete_times == 1) {
+                    if (confirm('글이 완전히 삭제됩니다.\n 진행하시겠습니까?') == false) return
+                }
 
                 this.posts[post_id].delete_times += 1
 
@@ -345,7 +356,10 @@
                                 this.posts = this.posts.filter((post) => {
                                     return post.state == this.post_state
                                 })
+
                             }
+
+                            console.log(this.posts)
                         })
                 }
             },

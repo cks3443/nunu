@@ -502,9 +502,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                                 <draggable
 
-                                                        v-if="!(post.subs[index].showControlPanel)"
 
                                                         v-model="post.subs[index].ord2"
 
@@ -565,15 +566,16 @@
                                                     </div>
 
                                                     <div
-                                                        class="drag-el-2"
+                                                            class="drag-el-2"
 
-                                                        data-id="1"
+                                                            data-id="1"
 
-                                                        v-else
+                                                            v-else-if="ord == 1"
 
-                                                        style="clear: both;"
+                                                            style="clear: both;"
                                                     >
                                                         <textarea
+                                                                id="textarea1"
                                                                 class="form-control textArea"
                                                                 type="text"
                                                                 placeholder=""
@@ -593,11 +595,12 @@
                                                 </draggable>
 
                                                 <div
-                                                            v-if="(post.subs[index].showControlPanel)"
+                                                        v-if="false"
 
-                                                            style="clear: both;"
+                                                        style="clear: both;"
                                                 >
                                                         <textarea
+                                                                id="textarea2"
                                                                 class="form-control textArea"
                                                                 type="text"
                                                                 placeholder=""
