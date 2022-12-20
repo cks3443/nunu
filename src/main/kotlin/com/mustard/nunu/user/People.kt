@@ -30,7 +30,6 @@ open class People(
     open var email: String = "",
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank
     open var pwd: String = "",
 
     open var firstName: String = "",
