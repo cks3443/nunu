@@ -275,7 +275,7 @@
     cursor: auto;
     pointer-events: unset;
 }
-
+ .image3 { justify-content: center;}
 .image-container:before {
     z-index: 3;
     content: "\2716";
