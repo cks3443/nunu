@@ -203,7 +203,8 @@
                                     >
                                         <div class="divTableBody">
                                             <div class="divTableRow">
-                                                <div class="divTableCell firstRow">
+                                                <div class="divTableCell firstRow"
+                                                >
                                                     <a
                                                             :href="'/posts/edit/' + post.id"
                                                     >
@@ -213,18 +214,16 @@
                                                             v-on:click="clickDeleteBtnHandler($event, post_id)"
                                                             v-if="post.delete_times == 0"
                                                     >
-                                                    <i class="fa-regular fa-circle">
-                                                    </i>
-                                                </span>
+                                                        <i class="fa-regular fa-circle"></i>
+                                                    </span>
                                                     <span
                                                             v-on:click="clickDeleteBtnHandler($event, post_id)"
                                                             v-else
 
                                                             style="color: red; width: 12px;height: 12px;border-radius: 50%;"
                                                     >
-                                                    <i class="fa-regular fa-circle">
-                                                    </i>
-                                                </span>
+                                                        <i class="fa-regular fa-circle"></i>
+                                                    </span>
 
                                                 </div>
                                             </div>
@@ -257,7 +256,7 @@
                                 <div
                                         class="divTable"
 
-                                        v-for="post in posts"
+                                        v-for="(post,post_id) in posts"
                                 >
                                     <div class="divTableBody">
                                         <div class="divTableRow">
@@ -267,9 +266,20 @@
                                                 >
                                                     {{post.title}}
                                                 </a>
-                                                <span>
-                                                    <i class="fa-regular fa-circle"></i>
-                                                </span>
+                                                <span
+                                                        v-on:click="clickDeleteBtnHandler($event, post_id)"
+                                                        v-if="post.delete_times == 0"
+                                                >
+                                                        <i class="fa-regular fa-circle"></i>
+                                                    </span>
+                                                <span
+                                                        v-on:click="clickDeleteBtnHandler($event, post_id)"
+                                                        v-else
+
+                                                        style="color: red; width: 12px;height: 12px;border-radius: 50%;"
+                                                >
+                                                        <i class="fa-regular fa-circle"></i>
+                                                    </span>
                                             </div>
 
                                         </div>

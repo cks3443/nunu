@@ -16,7 +16,7 @@
     <link th:href="@{/css/newStyle.css}" rel="stylesheet"/>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
     <style type="text/css">
-        @media (max-width: 700px) {
+        @media all and (max-width: 700px) {
             .navbar-brand {
                 display: none;
                 padding-top: 0.5rem;
@@ -84,13 +84,15 @@
             background-color: black;
             border-radius: 30px !important;
         }
-        .image3 .column{width:100%}
+
+        textarea {
+            resize: none;
+        }
     </style>
 </head>
 <body id="page-top">
 <div class="container-fluid" id="app">
     <div class="row"
-         :style="{display: post == null ? 'none' : 'block'}"
     >
 
         <div th:replace="~{fragments/common_parts :: menubar}"></div>
@@ -105,17 +107,23 @@
                     <div class="newButton">
                         <a th:href="@{/posts/edit/{id}(id=${id})}"><i class="fa-solid fa-pen"></i></a>
                     </div>
+
                     <div class="container">
                         <!-- Section Form-->
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-xl-7">
-                                <form v-if="post != null">
+                                <form v-if="post != null"
+
+                                      id="element-to-print"
+                                >
                                     <!-- Memo input-->
                                     <div class="form-floating mb-3" style="margin-bottom: unset !important;">
-                                        <input style="border: unset; font-size: 2rem;" class="form-control disableInput"
+                                        <input style="border: unset; font-size: 2rem;"
+                                               class="form-control disableInput for-copy"
                                                type="text"
                                                v-model="post.title"
-                                               disabled/>
+                                               disabled
+                                        />
 
                                     </div>
 
@@ -125,7 +133,7 @@
                                         <div class="form-floating mb-3  input-group forminput"
                                         >
                                             <textarea style="border: unset; font-size: 1rem; padding-top: 0.5rem;"
-                                                      class="form-control disableInput" type="text" disabled
+                                                      class="form-control disableInput for-copy" type="text" disabled
                                                       v-model="post.subs[order].heading"
                                             >
                                             </textarea>
@@ -157,8 +165,8 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <textarea style="border: unset; font-size: 1rem;padding-top: 0.5rem;width: 100%"
-                                                      class="form-control disableInput" type="text" disabled
+                                            <textarea style="border: unset; font-size: 1rem;padding-top: 0.5rem"
+                                                      class="form-control disableInput for-copy" type="text" disabled
                                                       v-model="post.subs[order].textarea"
                                             >
                                             </textarea>
@@ -178,13 +186,18 @@
                                         </div>
                                         <div class="column colDiv">
                                             <a href="#" class="btn btn-primary btn-xl hideBtn"
-                                               type="submit"
+                                               v-on:click="clickCopyHandler($event)"
                                             >
                                                 Copy
                                             </a>
                                         </div>
-                                        <div class="column colDiv"><a href="#" class="btn btn-primary btn-xl hideBtn"
-                                                                      type="submit"> Export</a></div>
+                                        <div class="column colDiv">
+                                            <a href="#" class="btn btn-primary btn-xl hideBtn"
+                                               v-on:click="clickExportHandler($event)"
+                                               type="submit">
+                                                Export
+                                            </a>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -197,6 +210,10 @@
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.7.3/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js"
+        integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+
 <script>
     new Vue({
         el: '#app',
@@ -215,7 +232,6 @@
                 .then((post) => {
                     this.post = post
 
-                    console.log(this.post)
                 })
         },
 
@@ -242,21 +258,44 @@
                     .then((post) => {
                         this.post = post
 
-                        window.location.replace("/main")
+                        window.location.replace("/main?state=DONE")
                     })
 
             },
 
+            clickExportHandler: function (event) {
+                event.preventDefault()
+
+                let appEl = document.getElementById('element-to-print')
+
+                const h2p = html2pdf(appEl)
+
+                h2p.save();
+
+            },
+
+            clickCopyHandler: function (e) {
+                e.preventDefault()
+
+                let els = $('.for-copy')
+
+                let txt = ''
+
+                els.each((i, el) => {
+
+                    if (el.innerText == '') {
+                        txt += $(el).val() + '\n'
+                    } else {
+                        txt += el.innerText + '\n'
+                    }
+                })
+
+                navigator.clipboard.writeText(txt)
+            }
+
         },
 
     })
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.image3 > div').length
-        console.log($('.image3 > div').length);
-    });
-
 </script>
 </body>
 </html>
