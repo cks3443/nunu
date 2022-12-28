@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-    private val postrepo: PostRepository,
+    private val postes: PostRepository,
 ) {
 
 
@@ -25,6 +25,16 @@ class PostService(
         people: People,
     ): MutableList<Post> {
 
-        return postrepo.findAllByPeople(people)
+        return postes.findAllByPeople(people)
+    }
+
+    fun setActiveOfPost(
+        id: Long,
+        active: Boolean,
+    ) {
+        val post_by_id = postes.findById(id).get()
+        post_by_id.active = active
+
+        postes.save(post_by_id)
     }
 }
