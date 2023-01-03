@@ -13,6 +13,7 @@ class PapagoTest {
 
     @Test
     fun main_function_test() {
-        papago.eng2ko_function("We are students")
+        val txt = papago.eng2ko_function("We are students")
+        println(txt)
     }
 }
