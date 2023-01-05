@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service
 @Service
 class NovelAi {
 
-//    val accessKey = "nbpHUulGCDP3b8U7XJxkzCVnIBLL0dy2dF7sgPBaTqRNNwTfPIM92W7dsC3f9_HR"
+    val accessKey = "nbpHUulGCDP3b8U7XJxkzCVnIBLL0dy2dF7sgPBaTqRNNwTfPIM92W7dsC3f9_HR"
 
-    val accessKey = "QiPYvge-rZq4kXTMyysMl8sRo3uqoAToUONa2F1E0eTlEsRdsdLjhkLkRMvmRam-"
+//    val accessKey = "QiPYvge-rZq4kXTMyysMl8sRo3uqoAToUONa2F1E0eTlEsRdsdLjhkLkRMvmRam-"
 
     fun getAccessToken(): String {
         val client = OkHttpClient().newBuilder()
