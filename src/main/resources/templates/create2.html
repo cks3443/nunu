@@ -279,7 +279,9 @@
                                                     >
                                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-primary" >
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                            v-on:click="clickAiBtn(index, k, $event)"
+                                                    >
                                                         <i class="fa-solid fa-arrows-rotate"></i>
                                                     </button>
                                                 </div>
@@ -757,6 +759,22 @@
                 })
         },
         methods: {
+            clickAiBtn: function (sub_index, keyword_id, e) {
+                e.preventDefault()
+                let keyword = this.post.subs[sub_index].keywords[keyword_id]
+                let form = new FormData()
+                form.append('txt', keyword)
+
+                fetch('/ai/generate', {method: 'POST', body: form})
+                    .then((r) => {
+                        if (r.ok) {
+                            return r.text()
+                        }
+                    })
+                    .then((d) => {
+                        this.post.subs[sub_index].textarea = d
+                    })
+            },
             toggleMobView: function (event) {
                 event.preventDefault()
 
