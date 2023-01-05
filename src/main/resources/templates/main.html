@@ -332,7 +332,7 @@
                     })
                     .then((data) => {
                         this.posts = data.filter((d) => {
-                            return d.state == this.post_state
+                            return (d.active != false && d.state == this.post_state)
                         })
                     })
             },
@@ -355,22 +355,34 @@
 
                 if (this.posts[post_id].delete_times == 2) {
 
-                    this.posts[post_id].state = 'DELETE'
+                    if (this.posts[post_id].state == 'DELETE') {
 
-                    const form = new FormData()
-                    form.append('post_str', JSON.stringify(this.posts[post_id]))
+                        let _id = this.posts[post_id].id
+                        fetch(`/posts/${_id}/disable`, {method: 'POST'})
+                            .then((r) => {
+                                if (r.ok) {
+                                    this.set_posts()
+                                    return
+                                }
+                            })
 
-                    fetch('/api/v1/posts/save', {method: 'POST', body: form})
-                        .then((r) => {
-                            if (r.ok) {
-                                this.posts = this.posts.filter((post) => {
-                                    return post.state == this.post_state
-                                })
+                    } else {
+                        this.posts[post_id].state = 'DELETE'
 
-                            }
+                        const form = new FormData()
+                        form.append('post_str', JSON.stringify(this.posts[post_id]))
 
-                            console.log(this.posts)
-                        })
+                        fetch('/api/v1/posts/save', {method: 'POST', body: form})
+                            .then((r) => {
+                                if (r.ok) {
+                                    this.posts = this.posts.filter((post) => {
+                                        return post.state == this.post_state
+                                    })
+
+                                }
+                            })
+                    }
+
                 }
             },
         },
