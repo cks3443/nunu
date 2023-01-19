@@ -1,5 +1,6 @@
 package com.mustard.nunu.ai
 
+import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONObject
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class NovelAi {
+class NovelAi(private val gson: Gson) {
 
     val accessKey = "nbpHUulGCDP3b8U7XJxkzCVnIBLL0dy2dF7sgPBaTqRNNwTfPIM92W7dsC3f9_HR"
 
@@ -42,7 +43,7 @@ class NovelAi {
         val mediaType = "application/json".toMediaTypeOrNull()
         val body = RequestBody.create(
             mediaType,
-            "{\r\n  \"input\": \"${origin_txt}\",\r\n  \"model\": \"euterpe-v2\",\r\n  \"parameters\": {\r\n    \"use_string\": true,\r\n    \"temperature\": 1,\r\n    \"min_length\": 10,\r\n    \"max_length\": 30\r\n  }\r\n}"
+            "{\r\n  \"input\": \"${origin_txt}\",\r\n  \"model\": \"euterpe-v2\",\r\n  \"parameters\": {\r\n    \"use_string\": true,\r\n    \"temperature\": 1,\r\n    \"min_length\": 400,\r\n    \"max_length\": 500\r\n  }\r\n}"
         )
         val request: Request = Request.Builder()
             .url("https://api.novelai.net/ai/generate")
@@ -54,7 +55,15 @@ class NovelAi {
             .addHeader("Content-Type", "application/json")
             .build()
         val response = client.newCall(request).execute()
-        val output = JSONObject(response.body!!.string()).get("output")
-        return output.toString().trim()
+        val out_str = response.body?.string()
+
+        data class out_body(
+            var output: String
+        )
+
+//        val output = JSONObject(response.body?.string()).get("output")
+        val out_gson = gson.fromJson(out_str, out_body::class.java)
+//        println(out_gson.output)
+        return out_gson.output
     }
 }

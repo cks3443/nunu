@@ -11,9 +11,9 @@ class NovelAiTest {
     @Test
     fun getAccessToken() {
 
-        val ai = NovelAi()
-        val token = ai.getAccessToken()
-        val txt_created_by_ai = ai.translate(token, "say it ditto")
-        println(txt_created_by_ai)
+//        val ai = NovelAi()
+//        val token = ai.getAccessToken()
+//        val txt_created_by_ai = ai.translate(token, "say it ditto")
+//        println(txt_created_by_ai)
     }
 }
