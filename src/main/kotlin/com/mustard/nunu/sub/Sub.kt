@@ -42,7 +42,7 @@ class Sub() : Base() {
     open var imgframe: MutableList<String> = mutableListOf("", "", "")
 
 
-    @Column(name = "textarea", length = 3000)
+    @Column(name = "textarea", length = 10000)
     open var textarea: String? = null
 
 

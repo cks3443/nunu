@@ -30,7 +30,9 @@ class WebSecurityConfiguration(
                 "/js/**",
                 "/sign",
                 "/login",
-                "/login/**"
+                "/login/**",
+                "/ai/**",
+                "/generate/**"
             )?.permitAll()
             ?.antMatchers("/sign", "/sign/**")?.permitAll()
             ?.anyRequest()?.authenticated()

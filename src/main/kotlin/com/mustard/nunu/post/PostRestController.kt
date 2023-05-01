@@ -62,9 +62,7 @@ class PostRestController(
 
         return try {
             val post = gson.fromJson(post_str, Post::class.java)
-
             post.people = user
-
             postes.save(post)
 
             ResponseEntity.ok().body(post)

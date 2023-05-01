@@ -138,6 +138,13 @@
             <li><a th:href="@{/main(state='DELETE')}">Delete</a></li>
             <div></div>
         </div>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <div class="sideLi">
+                <li><a th:href="@{/logout}">Logout</a></li>
+                <div></div>
+            </div>
+        </th:block>
     </ul>
     <hr/>
     <div class="column"><a th:href="@{/mypage}" class="btn btn-primary btn-xl sideBtn">ID</a></div>
@@ -152,10 +159,10 @@
 >
     <div class="logo"><a class="navbar-brand" th:href="@{/main}">LOGO</a></div>
     <div class="container">
-        <form action="#" class="searchForm" >
+        <form action="#" class="searchForm">
             <div class="form-group has-search">
-                <span  style="margin-left: 15px; width: 15px;" class="fa fa-search form-control-feedback"></span>
-                <input  style="width: 100%;" type="text" class="form-control searchInput">
+                <span style="margin-left: 15px; width: 15px;" class="fa fa-search form-control-feedback"></span>
+                <input style="width: 100%;" type="text" class="form-control searchInput">
             </div>
         </form>
         <div>
@@ -183,8 +190,20 @@
     </a>
 </div>
 
-<div class="newButton" th:fragment="newButton">
-    <a th:href="@{/posts/edit}"><img class="" th:src="@{/assets/img/new.svg}" alt="..."/></a>
+<div class="newButton" th:fragment="newButton"
+     style="
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+     align-items: center;
+     "
+>
+    <a th:href="@{/posts/edit}">
+        <img class="" th:src="@{/assets/img/new.svg}" alt="..."/>
+    </a>
+    <th:block sec:authorize="isAuthenticated()">
+        <a th:href="@{/logout}">Logout</a>
+    </th:block>
 </div>
 
 <th:block th:fragment="scription">

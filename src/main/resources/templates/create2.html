@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extrras/spring-security">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -739,6 +741,7 @@
             DELETE: 'DELETE',
             mobview: false,
             post_copied: null,
+            for_saving: true,
         },
         created: function () {
             let urlroot = '/api/v1/posts'
@@ -952,20 +955,21 @@
                 })
 
                 data.append('post_str', JSON.stringify(this.post))
-
+                this.for_saving = false
                 fetch('/api/v1/posts/save', {method: 'POST', body: data})
                     .then((r) => {
                         if (r.ok) return r.json()
                     })
                     .then((post) => {
                         this.post = post
+                        this.for_saving = true
                     })
 
             },
 
             donePost: function (event, state) {
                 event.preventDefault()
-
+                if (!(this.for_saving)) return
                 this.post.state = state
 
                 let data = new FormData()

@@ -20,10 +20,10 @@ class AiController(
     fun generateSentence(
         txt: String,
     ): String {
-        val kr_en = papago.ko2eng_function(txt)
+        val kr_en = papago.ko2eng_naver_cloud(txt)
         val token = novelAi.getAccessToken()
         val en_gen = novelAi.translate(token, kr_en)
-        val en_kr = papago.eng2ko_function(en_gen)
+        val en_kr = papago.eng2ko_naver_cloud(en_gen)
         return en_kr
     }
 }

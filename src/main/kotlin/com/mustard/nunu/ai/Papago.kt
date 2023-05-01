@@ -1,13 +1,9 @@
 package com.mustard.nunu.ai
 
 import com.google.gson.Gson
-import com.mustard.nunu.ai.Result
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
-import org.json.JSONObject
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 
@@ -42,12 +38,17 @@ class _Response {
 @Service
 class Papago(
     private val gson: Gson,
+    @Value("\${papago.client.id}")
+    private val client_id: String,
+    @Value("\${papago.secret.code}")
+    private val secret_code: String,
 ) {
     fun ko2eng_function(txt: String): String {
         val mediaType = "application/x-www-form-urlencoded; charset=UTF-8".toMediaTypeOrNull()
         val body = RequestBody.create(mediaType, "source=ko&target=en&text=${txt}")
         val response = request_function(body)
         val message_gson = gson.fromJson(response.body?.string(), _Response::class.java)
+        println("message_gson: ${message_gson.message?.result}")
         return message_gson.message?.result?.translatedText ?: ""
     }
 
@@ -68,5 +69,45 @@ class Papago(
             .build()
         val response = client.newCall(request).execute()
         return response
+    }
+
+    protected fun naver_cloud_request_function(body: RequestBody): Response {
+        val client = OkHttpClient().newBuilder()
+            .build()
+        val request: Request = Request.Builder()
+            .url("https://naveropenapi.apigw.ntruss.com/nmt/v1/translation")
+            .method("POST", body)
+            .addHeader("X-NCP-APIGW-API-KEY-ID", client_id)
+            .addHeader("X-NCP-APIGW-API-KEY", secret_code)
+            .addHeader("Content-Type", "application/x-www-form-urlencoded")
+            .build()
+        val response = client.newCall(request).execute()
+        return response
+    }
+
+    fun ko2eng_naver_cloud(txt: String): String {
+        return try {
+            val mediaType: MediaType? = "application/x-www-form-urlencoded".toMediaTypeOrNull()
+            val body: RequestBody = RequestBody.create(mediaType, "source=ko&target=en&text=${txt}")
+            val response = request_function(body)
+            val message_gson = gson.fromJson(response.body?.string(), _Response::class.java)
+            message_gson.message?.result?.translatedText ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun eng2ko_naver_cloud(txt: String): String {
+        return try {
+            val mediaType: MediaType? = "application/x-www-form-urlencoded".toMediaTypeOrNull()
+            val body: RequestBody = RequestBody.create(mediaType, "source=en&target=ko&text=${txt}")
+            val response = request_function(body)
+            val message_gson = gson.fromJson(response.body?.string(), _Response::class.java)
+            message_gson.message?.result?.translatedText ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 }
