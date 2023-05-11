@@ -7,6 +7,8 @@ import javax.validation.constraints.Size
 
 data class SignDTO(
     @Email
+    @NotBlank
+    @NotNull
     var email: String = "",
     @NotBlank
     @NotNull

@@ -95,6 +95,12 @@
                         <div></div>
                     </div>
                 </th:block>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="sideLi">
+                        <li><a th:href="@{/admin}">Admin</a></li>
+                        <div></div>
+                    </div>
+                </th:block>
             </ul>
             <hr/>
             <div class="column"><a th:href="@{/mypage}" class="btn btn-primary btn-xl sideBtn" type="submit"> ID</a>

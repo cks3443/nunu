@@ -31,11 +31,8 @@ open class People(
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     open var pwd: String = "",
-
     open var firstName: String = "",
-
     open var lastName: String = "",
-
     open var roles: String = "",
     open var enabled: Boolean = true,
 
@@ -71,22 +68,17 @@ open class People(
 
         roles.split(",")
             .forEach {
-                authorities.add(SimpleGrantedAuthority(it.trim()))
+                authorities.add(SimpleGrantedAuthority("ROLE_${it.trim()}"))
             }
 
         return authorities
     }
 
     override fun isEnabled() = enabled
-
     override fun getUsername() = email
-
     override fun isCredentialsNonExpired() = credentialsNonExpired
-
     override fun getPassword() = pwd
-
     override fun isAccountNonExpired() = accountNonExpired
-
     override fun isAccountNonLocked() = accountNonLocked
 
     //OAuth2
@@ -95,5 +87,4 @@ open class People(
     }
 
     override fun getName(): String = email
-
 }

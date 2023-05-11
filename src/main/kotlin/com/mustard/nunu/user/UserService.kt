@@ -1,13 +1,16 @@
 package com.mustard.nunu.user
 
+import org.springframework.data.domain.Pageable
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.lang.RuntimeException
 
 @Service
 class UserService(
     private val users: UserRepository,
+    private val jusers: UserCrudRepository,
 ) : UserDetailsService {
 
     val encoder = BCryptPasswordEncoder(11)
@@ -35,14 +38,14 @@ class UserService(
     fun encodePassword(passwd: String) = encoder.encode(passwd)
 
     fun setPasswdToMember(
-        email: String,
+        id: String,
         passwd: String,
     ) {
-
-        val member = users.findByEmail(email)
-
+        val member = jusers.findById(id).get()
         member?.pwd = encodePassword(passwd)
-
         users.save(member!!)
     }
+
+    @Transactional(readOnly = true)
+    fun getAllPeople(pageable: Pageable) = jusers.findAll(pageable)
 }

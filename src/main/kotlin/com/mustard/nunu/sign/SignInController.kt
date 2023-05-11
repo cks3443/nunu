@@ -44,8 +44,6 @@ class SignInController(
         model: Model,
     ): String {
 
-        println(signdto)
-
         val user = users.findByEmail(signdto.email)
 
         return when {
