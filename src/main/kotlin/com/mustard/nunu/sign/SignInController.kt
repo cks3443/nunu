@@ -11,7 +11,10 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestPart
 import java.util.StringJoiner
 import javax.validation.Valid
 import kotlin.math.sign
@@ -29,52 +32,46 @@ class SignInController(
     fun getSignPage(
         model: Model,
     ): String {
-
         model["signdto"] = SignDTO()
-
         return SIGN_PAGE
     }
 
     @PostMapping
     fun postSign(
-        @Valid signdto: SignDTO,
-
+        @Valid
+        signdto: SignDTO,
         result: BindingResult,
-
         model: Model,
     ): String {
-
         val user = users.findByEmail(signdto.email)
 
-        return when {
-            result.hasErrors() -> {
-                "redirect:/${SIGN_PAGE}"
-            }
+        var error_is = false
 
-            (signdto.passwd1 != signdto.passwd2) -> {
-                result.rejectValue("passwd", "비밀번호 이상")
-                return "redirect:/${SIGN_PAGE}"
-            }
-
-            user != null -> {
-                result.rejectValue("email", "이메일이 이미 있습니다.")
-                return "redirect:/${SIGN_PAGE}"
-
-            }
-
-            else -> {
-
-                val userdto = UserDTO("", "", "", "")
-
-                userdto.email = signdto.email
-                userdto.password = signdto.passwd1
-
-                userService.saveMember(userdto)
-
-                "redirect:/login"
-            }
+        if (result.hasErrors()) {
+            error_is = true
         }
 
+        if (signdto.passwd1 != signdto.passwd2) {
+            result.rejectValue("passwd1", "not match", "비밀번호 이상")
+            error_is = true
+        }
+
+        if (user != null || !signdto.email.contains('@')) {
+            result.rejectValue("email", "not email", "이메일 이상")
+            error_is = true
+        }
+
+        return if (error_is) {
+            model["result"] = result
+            model["signdto"] = signdto
+            SIGN_PAGE
+        } else {
+            val userdto = UserDTO("", "", "", "")
+            userdto.email = signdto.email
+            userdto.password = signdto.passwd1
+            userService.saveMember(userdto)
+            "redirect:/login"
+        }
     }
 
 }

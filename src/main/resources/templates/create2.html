@@ -818,6 +818,7 @@
                 this.post.subs[index].showControlPanel =
                     !(this.post.subs[index].showControlPanel)
             },
+            /*
             addSub: function (index) {
 
                 let urlroot = '/api/v1/subs'
@@ -831,10 +832,28 @@
                         this.post.subs.push(sub)
                         let add_id = this.post.subs.length - 1
                         this.post.ord.splice(index + 1, 0, add_id)
+                        console.log(this.post.ord)
                     })
 
-            },
+            }
+            */
+            addSub: function (index) {
+                let data = new FormData()
 
+                this.post.subs.forEach((sub) => {
+                    sub.keywordStorage = sub.keywords.join('|')
+                })
+                data.append('post_str', JSON.stringify(this.post))
+                this.for_saving = false
+                fetch('/api/v1/posts/add/sub', {method: 'POST', body: data})
+                    .then((r) => {
+                        if (r.ok) return r.json()
+                    })
+                    .then((post) => {
+                        this.post = post
+                        this.for_saving = true
+                    })
+            },
             addKeyword: function (pindex) {
                 this.post.subs[pindex].keywords.push("")
             },
@@ -1066,11 +1085,15 @@
             }
         },
 
-        computed: {},
+        computed
+    :
+    {
+    }
+    ,
 
-        updated: function () {
+    updated: function () {
 
-        }
+    }
 
     })
 

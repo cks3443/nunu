@@ -90,6 +90,17 @@
                             th:type="submit"
                             th:value="가입"
                     />
+                    <th:block th:if="${result}">
+                        <div th:if="${result.hasErrors()}">
+                            <ul>
+                                <th:block th:each="err : ${result.getAllErrors()}">
+                                    <li class="alert alert-danger" role="alert" th:text="${err.defaultMessage}">
+                                    </li>
+                                </th:block>
+                            </ul>
+                            </p>
+                        </div>
+                    </th:block>
                 </form>
             </div>
         </div>

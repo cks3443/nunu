@@ -34,7 +34,6 @@ class PostRestController(
             id?.let {
                 post = postes.findById(it).get()
             } ?: run {
-
                 post = Post()
                 post!!.title = ""
                 val sub = Sub()
@@ -42,11 +41,10 @@ class PostRestController(
                 sub.addKeyword("")
 
                 post!!.subs.add(sub)
+                post!!.ord = mutableListOf(0)
 
             }
-
             ResponseEntity.ok().body(post)
-
         } catch (e: Exception) {
             e.printStackTrace()
 
@@ -68,7 +66,21 @@ class PostRestController(
             ResponseEntity.ok().body(post)
         } catch (e: Exception) {
             e.printStackTrace()
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null)
+        }
+    }
 
+    @PostMapping("/add/sub")
+    fun addSubToPost(
+        @RequestParam post_str: String,
+        @AuthenticationPrincipal user: People,
+    ): ResponseEntity<Post?> {
+
+        return try {
+            val post_added_sub = postService.addSubToPost(post_str, user) ?: throw Exception("post is null")
+            ResponseEntity.ok().body(post_added_sub)
+        } catch (e: Exception) {
+            e.printStackTrace()
             ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null)
         }
     }
